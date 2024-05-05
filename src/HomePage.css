@@ -1,0 +1,79 @@
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #0056b3; /* Потемнее цвет фона */
+  padding: 10px 20px; /* Внутренний отступ */
+  color: white; /* Цвет текста */
+  border-bottom: 2px solid #00274d; /* Темный контур снизу */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2); /* Эффект тени */
+}
+
+
+
+.header-left img {
+  width: 100px;
+  height: auto;
+}
+
+.header-center {
+  flex-grow: 1;
+  text-align: center; /* Центрирование текста */
+  margin-left: -6%; /* Смещаем надпись влево на 10px */
+}
+
+.city-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  padding: 20px; /* Добавим внутренний отступ для выравнивания */
+}
+
+.city-item {
+  flex-basis: calc(25% - 20px); /* Четыре элемента в строке */
+  text-align: center;
+  margin-bottom: 20px; /* Расстояние между гербами */
+  border: 2px solid #000080; /* Темно-синяя рамка толщиной 2px */
+  border-radius: 5px; /* Скругляем углы рамки */
+  padding: 10px; /* Добавляем отступ вокруг содержимого */
+}
+
+.city-item img {
+  width: 80px; /* Размер иконок */
+  height: auto;
+  margin-bottom: 10px; /* Расстояние между иконкой и текстом ссылки */
+}
+
+.city-item a {
+  font-size: 20px; /* Размер текста ссылок */
+  color: black; /* Цвет текста ссылок */
+  display: block; /* Превращение ссылок в блочные элементы */
+}
+
+.description-container {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+
+.description {
+  /* Удалите максимальную ширину */
+  width: 100%;
+  /* max-width: 800px; */
+  margin: 0 auto; /* Центрирование контента на странице */
+}
+
+.description p {
+  text-align: center;
+  line-height: 1.5; /* Увеличьте значение, чтобы увеличить межстрочный интервал */
+}
+
+
+
+
+body {
+  background-image: url('./komi.png');
+  background-size: cover;
+  background-position: center top 10%; /* Сдвигаем фон на 10% вниз от верхнего края */
+}
+
