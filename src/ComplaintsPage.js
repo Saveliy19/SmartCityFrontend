@@ -37,11 +37,14 @@ function ComplaintsPage() {
               <div key={index} className="complaints-row">
                 {petitionsData.slice(index, index + 4).map(petition => (
                   <p key={petition.id} className="complaint-item">
-                    <Link to={`/complaint/${petition.id}`} className="complaint-link">
-                      <span className="complaint-id">ID: {petition.id}</span>
-                      <p>{petition.header}</p>
-                    </Link>
-                  </p>
+                  <Link to={`/complaint/${petition.id}`} className="complaint-link">
+                    <span className="complaint-id">ID: {petition.id}</span>
+                    <span className="complaint-header">{petition.header}</span>
+                    <p>{petition.address}</p>
+                    <p style={{ color: petition.status === 'Решено' || petition.status === 'Одобрено' ? 'green' : petition.status === 'Отклонено' ? 'red' : 'blue', textTransform: 'uppercase' }}>{petition.status}</p>
+                  </Link>
+                </p>
+                
                 ))}
               </div>
             : null

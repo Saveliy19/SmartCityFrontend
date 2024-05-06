@@ -34,6 +34,7 @@
   text-align: center;
   margin-bottom: 20px; /* Расстояние между гербами */
   border: 2px solid #000080; /* Темно-синяя рамка толщиной 2px */
+  background-color: #8e8edb8a;
   border-radius: 5px; /* Скругляем углы рамки */
   padding: 10px; /* Добавляем отступ вокруг содержимого */
 }
@@ -72,8 +73,6 @@
 
 
 body {
-  background-image: url('./komi.png');
-  background-size: cover;
-  background-position: center top 10%; /* Сдвигаем фон на 10% вниз от верхнего края */
+  background-color: #0056b3;
 }
 
