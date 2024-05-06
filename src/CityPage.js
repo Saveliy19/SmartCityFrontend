@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import logo from './logo.png';
+import Header from './Header'; // Импорт компонента Header
 
 function CityPage({ cityName }) {
   const [cityData, setCityData] = useState(null);
@@ -34,53 +35,55 @@ function CityPage({ cityName }) {
 
   return (
     <div>
-      <header className="header-container">
-        <div className="header-left">
-          <Link to="/">
-            <img src={logo} alt="Логотип Умного Города" />
-          </Link>
-        </div>
-        <div className="header-center">
-          <h1>Умный Город.{ cityName }</h1>
-        </div>
-        <div className="header-right">
-          <Link to="/login" className="login-button">Войти</Link>
-        </div>
-      </header>
+      <Header />
       <div className="description-container">
         <div className="description">
-          <div className="data-panel">
-            <div className="data-row">
-              <div className="data-column">
-                <h3>Статистика работы сервиса в городе за месяц</h3>
-                {cityData ? (
-                  <div>
-                    <p>Петиций: {cityData.petitions_count}</p>
-                    <p>Инициатив: {cityData.initiatives_count}</p>
-                    <p>Самая популярная категория жалоб: {cityData.most_popular_petition}</p>
-                    <p>Самая популярная категория инициатив: {cityData.most_popular_initiative}</p>
-                    <p>Процент решенных: {cityData.solved_percent}%</p>
-                    <p>Процент принятых: {cityData.accepted_percent}%</p>
-                  </div>
-                ) : (
-                  <p>Загрузка данных...</p>
-                )}
+          <div className="data-panel-container">
+            <div className="data-panel">
+              <div className="data-row">
+                <div className="data-column">
+                  {cityData ? (
+                    <div>
+                      <p style={{ fontWeight: 'bold' }}>Результаты работы сервиса в городе</p>
+                      <p>Петиций: {cityData.petitions_count}</p>
+                      <p>Инициатив: {cityData.initiatives_count}</p>
+                      <p>Самая популярная категория жалоб: {cityData.most_popular_petition}</p>
+                      <p>Самая популярная категория инициатив: {cityData.most_popular_initiative}</p>
+                      <p>Решенных проблем: {cityData.solved_percent}%</p>
+                      <p><progress value={cityData.solved_percent} max="100"></progress></p>
+                      <p>Принятых инициатив: {cityData.accepted_percent}%</p>
+                      <p><progress value={cityData.accepted_percent} max="100"></progress></p>
+                    </div>
+                  ) : (
+                    <p>Загрузка данных...</p>
+                  )}
+                </div>
+                <div className="data-column">
+                  {regionData ? (
+                    <div>
+                      <p style={{ fontWeight: 'bold' }}>Результаты работы сервиса в регионе</p>
+                      <p>Петиций: {regionData.petitions_count}</p>
+                      <p>Инициатив: {regionData.initiatives_count}</p>
+                      <p>Самая популярная категория жалоб: {regionData.most_popular_petition}</p>
+                      <p>Самая популярная категория инициатив: {regionData.most_popular_initiative}</p>
+                      <p>Решенных проблем: {regionData.solved_percent}%</p>
+                      <p><progress value={regionData.solved_percent} max="100"></progress></p>
+                      <p>Принятых инициатив: {regionData.accepted_percent}%</p>
+                      <p><progress value={regionData.accepted_percent} max="100"></progress></p>
+                    </div>
+                  ) : (
+                    <p>Загрузка данных...</p>
+                  )}
+                </div>
               </div>
-              <div className="data-column">
-                <h3>Статистика работы сервиса в регионе за месяц</h3>
-                {regionData ? (
-                  <div>
-                    <p>Петиций: {regionData.petitions_count}</p>
-                    <p>Инициатив: {regionData.initiatives_count}</p>
-                    <p>Самая популярная категория жалоб: {regionData.most_popular_petition}</p>
-                    <p>Самая популярная категория инициатив: {regionData.most_popular_initiative}</p>
-                    <p>Процент решенных: {regionData.solved_percent}%</p>
-                    <p>Процент принятых: {regionData.accepted_percent}%</p>
-                  </div>
-                ) : (
-                  <p>Загрузка данных...</p>
-                )}
-              </div>
+            </div>
+          </div>
+          <div className="links">
+            <div className="petitions">
+              <Link to={`/petitions/${cityName}`}>К петициям</Link>
+            </div>
+            <div className="complaints">
+              <Link to={`/initiatives/${cityName}`}>К инициативам</Link>
             </div>
           </div>
         </div>

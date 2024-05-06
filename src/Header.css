@@ -1,0 +1,34 @@
+/* Header.css */
+
+.mainHeader {
+    background-color: #111; /* Цвет фона header */
+    padding: 10px 0; /* Добавляем немного внутреннего отступа */
+  }
+  
+  .headerItems {
+    list-style-type: none; /* Убираем маркеры списка */
+    display: flex; /* Отображаем элементы в строку */
+    align-items: center; /* Выравниваем элементы по центру по вертикали */
+  }
+  
+  .logo {
+    width: 100px; /* Укажите нужную ширину */
+    height: auto; /* Автоматически подстраивает высоту, сохраняя пропорции */
+  }
+  
+  .loginButtonContainer {
+    margin-left: 90px; /* Перемещаем кнопку "Вход" немного влево */
+  }
+  
+  .loginButton {
+    /* Увеличиваем размер кнопки */
+    padding: 10px 20px;
+    font-size: 16px;
+  }
+  
+  .smartCityText {
+  color: white; /* Цвет текста */
+  flex-grow: 1; /* Растягиваем текст "Умный город" на всю доступную ширину */
+  text-align: center; /* Выравниваем текст по центру */
+  font-size: 35px; /* Размер текста */
+}

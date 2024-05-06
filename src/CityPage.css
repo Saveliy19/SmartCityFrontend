@@ -1,43 +1,95 @@
 .login-button {
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: #4CAF50;
-    color: white;
-    text-align: center;
-    text-decoration: none;
-    border-radius: 5px;
-  }
-  
-  /* Стили для контейнера панелей данных */
-  .data-panel-container {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
-  }
-  
-  /* Стили для панели с информацией */
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 5px;
+}
+
+/* Стили для контейнера панелей данных */
+.data-panel-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+/* Стили для панели с информацией */
 .data-panel {
-    width: 100%; /* Занимаем всю доступную ширину */
-    background-color: #2280c9; /* Синий оттенок фона */
-    border: 1px solid #000080; /* Цвет рамки */
-    border-radius: 10px; /* Более скругленные углы */
-    padding: 20px;
-    box-sizing: border-box; /* Учитываем padding внутри ширины */
-  }
-  
-  /* Стили для контейнера строки данных */
-  .data-row {
-    display: flex;
-  }
-  
-  /* Стили для колонок данных */
-  .data-column {
-    flex: 1; /* Равное распределение пространства между колонками */
-    margin-right: 20px; /* Отступ между колонками */
-  }
-  
-  /* Дополнительные стили для заголовков */
-  h3 {
-    margin-bottom: 10px; /* Отступ между заголовками и данными */
-  }
-  
+  width: 100%; /* Занимаем всю доступную ширину */
+  background-color: #4a9ddd; /* Синий оттенок фона */
+  border: 1px solid #000000; /* Цвет рамки */
+  border-radius: 10px; /* Более скругленные углы */
+  padding: 20px;
+  box-sizing: border-box; /* Учитываем padding внутри ширины */
+}
+
+/* Стили для контейнера строки данных */
+.data-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+/* Стили для колонок данных */
+.data-column {
+  flex: 1;
+  margin-right: 20px;
+}
+
+/* Дополнительные стили для заголовков */
+h3 {
+  margin-bottom: 10px;
+  text-align: left; /* Выравнивание заголовков по левой стороне */
+}
+
+/* Стили для прогрессбара */
+progress {
+  width: 20%; /* Занимаем всю доступную ширину */
+  height: 30px; /* Установка желаемой высоты прогрессбара */
+  appearance: none; /* Отменяем стандартный стиль браузера */
+  background-color: #ffffff; /* Цвет незаполненной части */
+}
+
+
+
+.links {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.petitions,
+.complaints {
+  flex: 1;
+  text-align: center;
+}
+
+.petitions a,
+.complaints a {
+  display: inline-block;
+  text-decoration: none;
+  color: #000000;
+  font-weight: bold;
+  font-size: 18px;
+  padding: 10px 20px; /* Добавление отступов вокруг текста */
+  border-radius: 5px; /* Закругление углов */
+}
+
+.petitions {
+  background-color: #FF0000; /* Зеленый фон для раздела с петициями */
+}
+
+.complaints {
+  background-color: #4CAF50; /* Красный фон для раздела с жалобами */
+}
+
+.petitions p,
+.complaints p {
+  margin-top: 5px;
+  font-size: 14px;
+  color: white; /* Цвет текста для описания */
+}
+
+
