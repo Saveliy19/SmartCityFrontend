@@ -1,0 +1,35 @@
+.complaints-container {
+  height: 400px; /* Задайте фиксированную высоту */
+  overflow-y: auto; /* Добавьте скроллбар при необходимости */
+}
+
+.complaints-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.complaints-row {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px; /* Добавьте немного отступа между строками */
+}
+
+.complaint-item {
+  width: 22%; /* Измените ширину элементов, чтобы они влезали в строку */
+  background-color: #8b3737;
+  border: 4px solid #ff0000;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.complaint-link {
+  text-decoration: none;
+  color: #333;
+}
+
+.complaint-id {
+  font-weight: bold;
+  margin-right: 10px;
+}
