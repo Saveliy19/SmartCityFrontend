@@ -1,0 +1,36 @@
+.petition-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Выравнивание по верхнему краю */
+    height: 100vh; /* Высота страницы заявки будет занимать весь экран */
+  }
+  
+  .petition-content {
+    background-color: #67c2c5; /* Цвет фона блока с содержимым */
+    border-radius: 20px; /* Радиус скругления углов */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); /* Тень блока */
+    padding: 20px; /* Отступы внутри блока */
+    width: 90%; /* Ширина блока */
+    max-width: 800px; /* Максимальная ширина блока */
+  }
+  
+  
+  .petition-content p {
+    margin-bottom: 10px; /* Дополнительный отступ между параграфами */
+  }
+  
+  /* Дополнительные стили для заголовка */
+  .petition-content p:first-child {
+    font-size: 24px; /* Увеличение размера заголовка */
+    font-weight: bold; /* Жирное начертание */
+  }
+  
+  /* Добавленные классы для изменения цвета текста */
+.text-red {
+    color: red;
+  }
+  
+  .text-green {
+    color: green;
+  }
+  

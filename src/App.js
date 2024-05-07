@@ -4,6 +4,9 @@ import HomePage from './HomePage';
 import EmvaPage from './EmvaPage';
 import SyktyvkarPage from './SyktyvkarPage';
 import ComplaintsPage from './ComplaintsPage';
+import InitiativesPage from './InitiativesPage';
+import AboutPetitionPage from './AboutPetitionPage';
+import RegistrationPage from './RegistrationPage'
 
 // import UkhtaPage from './UkhtaPage';
 // import PechoraPage from './PechoraPage';
@@ -17,7 +20,9 @@ function App() {
         <Route path="/emva" element={<EmvaPage />} />
         <Route path="/syktyvkar" element={<SyktyvkarPage />} />
         <Route path="/petitions/:cityName" element={<ComplaintsPage />} />
-        {/* <Route path="/syktyvkar" element={<SyktyvkarPage />} /> */}
+        <Route path="/initiatives/:cityName" element={<InitiativesPage />} />
+        <Route path="/petition/:petitionId" element={<AboutPetitionPage />} />
+        <Route path="/registration" element={<RegistrationPage />} />
         {/* <Route path="/ukhta" element={<UkhtaPage />} /> */}
         {/* <Route path="/pechora" element={<PechoraPage />} /> */}
         {/* <Route path="*" element={<NotFoundPage />} /> */}

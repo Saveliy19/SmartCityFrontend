@@ -34,7 +34,7 @@ function CityPage({ cityName }) {
 
   return (
     <div>
-      <Header />
+      <Header cityName={cityName} />
       <div className="description-container">
         <div className="description">
           <div className="data-panel-container">

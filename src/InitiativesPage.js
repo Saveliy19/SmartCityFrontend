@@ -5,7 +5,7 @@ import { Link, useParams } from 'react-router-dom';
 // Импортируем стиль для скроллбара
 import './ComplaintsPage.css'; 
 
-function ComplaintsPage() {
+function InitiativesPage() {
   const [petitionsData, setPetitionsData] = useState([]);
   const { cityName } = useParams();
 
@@ -15,7 +15,7 @@ function ComplaintsPage() {
         const response = await axios.post('http://127.0.0.1:8000/get_city_petitions', {
           region: 'Республика Коми',
           name: cityName,
-          is_initiative: false
+          is_initiative: true
         });
         setPetitionsData(response.data[0].petitions);
       } catch (error) {
@@ -29,7 +29,7 @@ function ComplaintsPage() {
   return (
     <div>
       <Header cityName={cityName} />
-      <h2>Петиции города {cityName}</h2>
+      <h2>Инициативы города {cityName}</h2>
       <div className="complaints-container">
         <ul className="complaints-list">
           {/* Разместите здесь петиции по 4 в строке */}
@@ -57,4 +57,4 @@ function ComplaintsPage() {
 }
 
 
-export default ComplaintsPage;
+export default InitiativesPage;
