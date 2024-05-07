@@ -1,34 +1,81 @@
 /* Header.css */
 
-.mainHeader {
-    background-color: #111; /* Цвет фона header */
-    padding: 10px 0; /* Добавляем немного внутреннего отступа */
-  }
-  
-  .headerItems {
-    list-style-type: none; /* Убираем маркеры списка */
-    display: flex; /* Отображаем элементы в строку */
-    align-items: center; /* Выравниваем элементы по центру по вертикали */
-  }
-  
-  .logo {
-    width: 100px; /* Укажите нужную ширину */
-    height: auto; /* Автоматически подстраивает высоту, сохраняя пропорции */
-  }
-  
-  .loginButtonContainer {
-    margin-left: 90px; /* Перемещаем кнопку "Вход" немного влево */
-  }
-  
-  .loginButton {
-    /* Увеличиваем размер кнопки */
-    padding: 10px 20px;
-    font-size: 16px;
-  }
-  
-  .smartCityText {
-  color: white; /* Цвет текста */
-  flex-grow: 1; /* Растягиваем текст "Умный город" на всю доступную ширину */
-  text-align: center; /* Выравниваем текст по центру */
-  font-size: 35px; /* Размер текста */
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #111;
+  padding: 10px 0;
+}
+
+.header-left,
+.header-right {
+  display: flex;
+  align-items: center;
+}
+
+.header-center {
+  flex-grow: 1;
+  text-align: center;
+}
+
+.logo {
+  width: 100px;
+  height: auto;
+}
+
+.profile-button,
+.login-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.profile-button {
+  background-color: #333;
+  color: white;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+
+.red-button {
+  background-color: red;
+  color: white;
+}
+
+.login-submit {
+  border-radius: 5px;
+  background-color: green !important;
+  color: white;
+  padding: 2px 4px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+
+.cancel-button {
+  border-radius: 5px;
+  background-color: red !important;
+  color: white;
+  padding: 2px 4px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+
+.input-group {
+  display: flex;
+  justify-content: space-between;
+}
+
+.input-group input {
+  width: calc(50% - 5px);
+}
+
+.login-buttons {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
 }
