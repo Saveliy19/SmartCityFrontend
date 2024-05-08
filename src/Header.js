@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import logo from './logo.png';
 import './Header.css';
 
-function Header({ cityName }) {
+function Header() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isModerator, setIsModerator] = useState(null);
   const [showLoginForm, setShowLoginForm] = useState(false);
@@ -41,32 +41,35 @@ function Header({ cityName }) {
   return (
     <header className="header-container">
       <div className="header-left">
-        <Link to="/">
-          <img src={logo} alt="Логотип Умного Города" />
-        </Link>
+      <Link to="/">
+        <img src={logo} alt="Логотип Умного Города" className="logo" />
+      </Link>
       </div>
       <div className="header-center">
-        <h1>Умный Город - {cityName}</h1>
+        <h1>Умный Город</h1>
       </div>
       <div className="header-right">
         {isLoggedIn ? (
           <>
             {isModerator? (
           <>
-            <Link to="/administrate">
+            <Link to="/admin">
               <button className="profile-button">{'Администрирование'}</button>
             </Link>
           </>
         ) : (
           <>
-            <Link to="/profile">
+            <Link to="/user">
               <button className="profile-button">{'Профиль'}</button>
             </Link>
           </>
         )}
-        <button onClick={handleLogout} className="login-button red-button">
+        <Link to="/">
+          <button onClick={handleLogout} className="red-button">
               Выйти
-            </button>
+          </button>
+        </Link>
+        
           </>
         ) : (
           <>
@@ -113,6 +116,7 @@ function LoginForm({ handleLoginSuccess, setError, onCancel, error }) {
       if (response.ok) {
         const token = responseData.access_token;
         const is_moderator = responseData.is_moderator;
+        
         localStorage.setItem('token', token);
         localStorage.setItem('is_moderator', is_moderator);
         handleLoginSuccess(token);

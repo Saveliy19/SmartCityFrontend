@@ -4,10 +4,12 @@ import Header from './Header';
 import { Link, useParams } from 'react-router-dom';
 // Импортируем стиль для скроллбара
 import './ComplaintsPage.css'; 
+import { useNavigate } from 'react-router-dom'; // Импорт useNavigate из react-router-dom
 
 function ComplaintsPage() {
   const [petitionsData, setPetitionsData] = useState([]);
   const { cityName } = useParams();
+  const navigate = useNavigate(); // Использование useNavigate для навигации
 
   useEffect(() => {
     const fetchData = async () => {
@@ -25,6 +27,10 @@ function ComplaintsPage() {
 
     fetchData();
   }, [cityName]);
+
+  const handleGoBack = () => {
+    navigate(-1); // Функция, чтобы вернуться на предыдущую страницу
+  };
 
   return (
     <div>
@@ -52,6 +58,7 @@ function ComplaintsPage() {
           ))}
         </ul>
       </div>
+      <button onClick={handleGoBack}>Назад</button> {/* Кнопка "Назад" */}
     </div>
   );
 }

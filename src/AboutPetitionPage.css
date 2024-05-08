@@ -34,3 +34,14 @@
     color: green;
   }
   
+  .like-icon {
+    width: 20px;
+    height: 20px;
+    margin-left: 5px;
+    cursor: pointer;
+  }
+  
+  .liked {
+    filter: grayscale(0%); /* Для изменения цвета иконки при нажатии */
+  }
+  

@@ -3,10 +3,16 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import Header from './Header'; // Импорт компонента Header
 import './AboutPetitionPage.css'; // Подключаем файл со стилями
+import { useNavigate } from 'react-router-dom'; // Импорт useNavigate из react-router-dom
+import likeIcon from './like.png';
+
 
 function PetitionPage() {
   const [petition, setPetition] = useState(null);
   const { petitionId } = useParams();
+  const navigate = useNavigate(); // Использование useNavigate для навигации
+  const [isLiked, setIsLiked] = useState(false);
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -22,6 +28,15 @@ function PetitionPage() {
 
     fetchData();
   }, [petitionId]);
+
+  const handleGoBack = () => {
+    navigate(-1); // Функция, чтобы вернуться на предыдущую страницу
+  };
+
+  const handleLike = () => {
+    setIsLiked(!isLiked); // Изменение состояния при каждом нажатии
+  };
+  
 
   if (!petition) {
     return <div>Loading...</div>; // Добавим заглушку для загрузки данных
@@ -39,12 +54,23 @@ function PetitionPage() {
           {petition.is_initiative ? "ИНИЦИАТИВА" : "ЖАЛОБА"}</span> в категории "{petition.category}"</p>
         <p>Описание: {petition.description}</p>
         <p>Дата подачи: {petition.submission_time}</p>
-        <p style={{ color: petition.status === 'Решено' || petition.status === 'Одобрено' ? 'green' : petition.status === 'Отклонено' ? 'red' : 'blue', 
-        textTransform: 'uppercase' }}>
-          {petition.status}</p>
+        <p style={{ color: petition.status === 'Решено' || petition.status === 'Одобрено' ? 'green' :
+                   petition.status === 'В работе' || petition.status === 'На рассмотрении' ? 'yellow' :
+                  petition.status === 'Отклонено' ? 'red' : 'blue', 
+                  textTransform: 'uppercase' }}>
+                  {petition.status}</p>
         <p>Количество подписей: {petition.likes_count}</p>
-        
-      
+        <button onClick={handleGoBack}>Назад</button> {/* Кнопка "Назад" */}
+        {isLiked ? (
+          <img
+            src={likeIcon}
+            alt="Like"
+            className="like-icon"
+            onClick={handleLike}
+          />
+        ) : (
+          <button onClick={handleLike}>Поставить подпись</button>
+        )}
         {/* Дополните отображение данных о петиции по вашему усмотрению */}
       </div>
     </div>

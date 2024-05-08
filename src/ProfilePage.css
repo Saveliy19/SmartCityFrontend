@@ -1,23 +1,61 @@
 .profile-page {
-    display: flex;
-    justify-content: center; /* Центрируем содержимое по горизонтали */
-    height: 100vh; /* Занимаем всю высоту видимой области страницы */
-    background-color: #f0f0f0; /* Задаем цвет фона страницы */
-    color: white; /* Задаем цвет текста */
-  }
-  
-  .user-info {
-    text-align: center;
-    color: black;
-  }
-  
-  .user-icon {
-    margin-bottom: 20px;
-  }
-  
-  .profile-image {
-    width: 50%;
-    height: 50%;
-    border-radius: 50%;
-  }
-  
+  display: flex;
+  justify-content: center;
+  background-color: #f0f0f0;
+  color: black;
+}
+
+.user-info {
+  text-align: center;
+}
+
+.user-icon {
+  margin-bottom: 20px;
+}
+
+.profile-image {
+  width: 50%;
+  height: 50%;
+  border-radius: 50%;
+}
+
+.petitions-container {
+  background-color: #f0f0f0;
+  margin-top: 20px;
+}
+
+.petitions-list-container {
+  overflow: hidden;
+}
+
+.petitions-list {
+  display: flex;
+  padding: 0;
+  transition: transform 0.3s ease;
+}
+
+.petition-item {
+  border: 3px solid #000000;
+  background-color: #cacaca;
+  border-radius: 20px;
+  padding: 10px;
+  margin-right: 10px;
+}
+
+.pagination-buttons {
+  display: flex;
+  justify-content: space-between; /* Располагаем элементы в кнопках по краям контейнера */
+  margin-top: 10px;
+}
+
+.pagination-buttons img {
+  width: 3%;
+  height: 3%;
+  cursor: pointer;
+}
+
+
+
+.back-button {
+  margin-top: 20px;
+}

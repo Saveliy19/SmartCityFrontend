@@ -3,10 +3,12 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import Header from './Header'; // Импорт компонента Header
+import { useNavigate } from 'react-router-dom'; // Импорт useNavigate из react-router-dom
 
 function CityPage({ cityName }) {
   const [cityData, setCityData] = useState(null);
   const [regionData, setRegionData] = useState(null);
+  const navigate = useNavigate(); // Использование useNavigate для навигации
 
   useEffect(() => {
     const fetchData = async () => {
@@ -32,9 +34,13 @@ function CityPage({ cityName }) {
     fetchData();
   }, [cityName]);
 
+  const handleGoBack = () => {
+    navigate(-1); // Функция, чтобы вернуться на предыдущую страницу
+  };
+
   return (
     <div>
-      <Header cityName={cityName} />
+      <Header />
       <div className="description-container">
         <div className="description">
           <div className="data-panel-container">
@@ -87,6 +93,7 @@ function CityPage({ cityName }) {
           </div>
         </div>
       </div>
+      <button onClick={handleGoBack}>Назад</button> {/* Кнопка "Назад" */}
     </div>
   );
 }
