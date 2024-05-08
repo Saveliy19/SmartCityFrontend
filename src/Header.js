@@ -145,6 +145,9 @@ function LoginForm({ handleLoginSuccess, setError, onCancel, error }) {
           <button type="submit" className="login-submit">
             Войти
           </button>
+          <Link to="/registration">
+               <p>Регистрация</p>
+            </Link>
           <button onClick={onCancel} className="cancel-button">
             Отмена
           </button>

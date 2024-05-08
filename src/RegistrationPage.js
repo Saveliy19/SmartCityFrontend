@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './RegistrationPage.css'; // Импортируем файл стилей
 
 function RegistrationPage() {
@@ -10,6 +11,9 @@ function RegistrationPage() {
     patronymic: '',
     city: ''
   });
+  const [errorMessage, setErrorMessage] = useState('');
+  const [registrationSuccess, setRegistrationSuccess] = useState(false);
+  const navigate = useNavigate(); // Хук для навигации
 
   const handleChange = (e) => {
     const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
@@ -42,15 +46,22 @@ function RegistrationPage() {
       
       if (response.ok) {
         console.log('Регистрация успешна');
-        // Здесь вы можете выполнить дополнительные действия после успешной регистрации, например, перенаправление на другую страницу
+        setRegistrationSuccess(true);
+        setErrorMessage(''); // Сброс сообщения об ошибке
       } else {
         console.error('Ошибка при регистрации');
         // Обработка ошибки при регистрации
+        setErrorMessage('Ошибка при регистрации. Пожалуйста, проверьте введенные данные и попробуйте снова.');
       }
     } catch (error) {
       console.error('Ошибка:', error);
       // Обработка ошибки сети или других проблем
+      setErrorMessage('Ошибка сети. Пожалуйста, попробуйте позже.');
     }
+  };
+
+  const handleReturn = () => {
+    navigate(-1); // Перенаправляем пользователя на предыдущую страницу
   };
 
   return (
@@ -59,71 +70,80 @@ function RegistrationPage() {
         <h2>Форма регистрации</h2>
       </div>
       <div className="registration-form">
-        <form onSubmit={handleSubmit}>
+        {errorMessage && <p className="error-message">{errorMessage}</p>}
+        {registrationSuccess ? (
           <div>
-            <label>Email:</label>
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-            />
+            <p>Регистрация успешна!</p>
+            <p>Авторизуйтесь в системе для продолжения работы!</p>
+            <button onClick={handleReturn}>Вернуться</button>
           </div>
-          <div>
-            <label>Пароль:</label>
-            <input
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div>
-            <label>Фамилия:</label>
-            <input
-              type="text"
-              name="last_name"
-              value={formData.last_name}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div>
-            <label>Имя:</label>
-            <input
-              type="text"
-              name="first_name"
-              value={formData.first_name}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div>
-            <label>Отчество:</label>
-            <input
-              type="text"
-              name="patronymic"
-              value={formData.patronymic}
-              onChange={handleChange}
-            />
-          </div>
-          <div>
-            <label>Город:</label>
-            <select
-              name="city"
-              value={formData.city}
-              onChange={handleChange}
-              required
-            >
-              <option value="">Выберите город</option>
-              <option value="Емва">Емва</option>
-              <option value="Сыктывкар">Сыктывкар</option>
-            </select>
-          </div>
-          <button type="submit">Зарегистрироваться</button>
-        </form>
+        ) : (
+          <form onSubmit={handleSubmit}>
+            <div>
+              <label>Email:</label>
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div>
+              <label>Пароль:</label>
+              <input
+                type="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div>
+              <label>Фамилия:</label>
+              <input
+                type="text"
+                name="last_name"
+                value={formData.last_name}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div>
+              <label>Имя:</label>
+              <input
+                type="text"
+                name="first_name"
+                value={formData.first_name}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div>
+              <label>Отчество:</label>
+              <input
+                type="text"
+                name="patronymic"
+                value={formData.patronymic}
+                onChange={handleChange}
+              />
+            </div>
+            <div>
+              <label>Город:</label>
+              <select
+                name="city"
+                value={formData.city}
+                onChange={handleChange}
+                required
+              >
+                <option value="">Выберите город</option>
+                <option value="Емва">Емва</option>
+                <option value="Сыктывкар">Сыктывкар</option>
+              </select>
+            </div>
+            <button type="submit">Зарегистрироваться</button>
+          </form>
+        )}
       </div>
     </div>
   );
