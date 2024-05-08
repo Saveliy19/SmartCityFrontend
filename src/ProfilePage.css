@@ -1,0 +1,23 @@
+.profile-page {
+    display: flex;
+    justify-content: center; /* Центрируем содержимое по горизонтали */
+    height: 100vh; /* Занимаем всю высоту видимой области страницы */
+    background-color: #f0f0f0; /* Задаем цвет фона страницы */
+    color: white; /* Задаем цвет текста */
+  }
+  
+  .user-info {
+    text-align: center;
+    color: black;
+  }
+  
+  .user-icon {
+    margin-bottom: 20px;
+  }
+  
+  .profile-image {
+    width: 50%;
+    height: 50%;
+    border-radius: 50%;
+  }
+  

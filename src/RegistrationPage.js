@@ -6,6 +6,7 @@ function RegistrationPage() {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
+    confirmPassword: '',
     last_name: '',
     first_name: '',
     patronymic: '',
@@ -25,6 +26,20 @@ function RegistrationPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (formData.password !== formData.confirmPassword) {
+      setErrorMessage('Пароли не совпадают');
+      return;
+    }
+    if (!formData.city) {
+      setErrorMessage('Пожалуйста, выберите город');
+      return;
+    }
+    if (!/^[А-ЯЁ][а-яё]*$/i.test(formData.last_name) ||
+        !/^[А-ЯЁ][а-яё]*$/i.test(formData.first_name) ||
+        (formData.patronymic && !/^[А-ЯЁ][а-яё]*$/i.test(formData.patronymic))) {
+      setErrorMessage('Фамилия, имя и отчество должны быть указаны кириллицей и начинаться с заглавной буквы');
+      return;
+    }
     try {
       let cityValue = '';
       if (formData.city === 'Емва') {
@@ -51,7 +66,7 @@ function RegistrationPage() {
       } else {
         console.error('Ошибка при регистрации');
         // Обработка ошибки при регистрации
-        setErrorMessage('Ошибка при регистрации. Пожалуйста, проверьте введенные данные и попробуйте снова.');
+        setErrorMessage('Пользователь с таким адресом электронной почты уже зарегистрирован в системе!');
       }
     } catch (error) {
       console.error('Ошибка:', error);
@@ -74,7 +89,6 @@ function RegistrationPage() {
         {registrationSuccess ? (
           <div>
             <p>Регистрация успешна!</p>
-            <p>Авторизуйтесь в системе для продолжения работы!</p>
             <button onClick={handleReturn}>Вернуться</button>
           </div>
         ) : (
@@ -95,6 +109,16 @@ function RegistrationPage() {
                 type="password"
                 name="password"
                 value={formData.password}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div>
+              <label>Повторите пароль:</label>
+              <input
+                type="password"
+                name="confirmPassword"
+                value={formData.confirmPassword}
                 onChange={handleChange}
                 required
               />

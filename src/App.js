@@ -7,7 +7,8 @@ import ComplaintsPage from './ComplaintsPage';
 import InitiativesPage from './InitiativesPage';
 import AboutPetitionPage from './AboutPetitionPage';
 import RegistrationPage from './RegistrationPage'
-
+import AdministratorPage from './AdministratorPage';
+import ProfilePage from './ProfilePage';
 // import UkhtaPage from './UkhtaPage';
 // import PechoraPage from './PechoraPage';
 // import NotFoundPage from './NotFoundPage';
@@ -23,6 +24,8 @@ function App() {
         <Route path="/initiatives/:cityName" element={<InitiativesPage />} />
         <Route path="/petition/:petitionId" element={<AboutPetitionPage />} />
         <Route path="/registration" element={<RegistrationPage />} />
+        <Route path="/admin" element={<AdministratorPage />} />
+        <Route path="/user" element={<ProfilePage />} />
         {/* <Route path="/ukhta" element={<UkhtaPage />} /> */}
         {/* <Route path="/pechora" element={<PechoraPage />} /> */}
         {/* <Route path="*" element={<NotFoundPage />} /> */}
