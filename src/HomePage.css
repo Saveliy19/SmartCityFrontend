@@ -33,8 +33,8 @@
   flex-basis: calc(25% - 20px); /* Четыре элемента в строке */
   text-align: center;
   margin-bottom: 20px; /* Расстояние между гербами */
-  border: 2px solid #000080; /* Темно-синяя рамка толщиной 2px */
-  background-color: #8e8edb8a;
+  border: 2px solid #000000; /* Темно-синяя рамка толщиной 2px */
+  background-color: #7979864f;
   border-radius: 5px; /* Скругляем углы рамки */
   padding: 10px; /* Добавляем отступ вокруг содержимого */
 }
@@ -73,6 +73,6 @@
 
 
 body {
-  background-color: #ffffff;
+  background-color: #7979864f;
 }
 

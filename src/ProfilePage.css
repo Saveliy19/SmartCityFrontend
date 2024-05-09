@@ -54,8 +54,14 @@
   cursor: pointer;
 }
 
+.button-container {
+  display: flex;
+  justify-content:space-around;
+  margin-top: 1%;
+}
 
-
-.back-button {
-  margin-top: 20px;
+.pagination-buttons img {
+  width: 3%;
+  height: 3%;
+  cursor: pointer;
 }

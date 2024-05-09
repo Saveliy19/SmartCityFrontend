@@ -3,15 +3,17 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Header from './Header';
 import userIcon from './user.png';
-import './ProfilePage.css';
 import leftArrow from './left.png';
 import rightArrow from './right.png';
-import { Link} from 'react-router-dom';
+import backArrow from './back.png';
+import plusIcon from './plus.png'
+import { Link } from 'react-router-dom';
+import './ProfilePage.css';
 
 const ProfilePage = () => {
   const [userData, setUserData] = useState(null);
   const [error, setError] = useState(null);
-  const [currentPage, setCurrentPage] = useState(0); // Добавляем состояние для текущей страницы заявок
+  const [currentPage, setCurrentPage] = useState(0);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -33,6 +35,10 @@ const ProfilePage = () => {
 
   const handleGoBack = () => {
     navigate(-1);
+  };
+
+  const handleCreatePetition = () => {
+    navigate('/create-petition');
   };
 
   const handlePageChange = (direction) => {
@@ -66,6 +72,10 @@ const ProfilePage = () => {
           <p>Loading...</p>
         )}
       </div>
+      <div className="button-container">
+        <img src={backArrow} alt="Previous"  onClick={handleGoBack} />
+        <img src={plusIcon} alt="Add petition"  onClick={handleCreatePetition} />
+      </div>
       {userData && userData.petitions && (
         <div className="petitions-container">
           <h2>Вот ваши заявки</h2>
@@ -87,13 +97,12 @@ const ProfilePage = () => {
           </div>
           {userData.petitions.length > 3 && (
             <div className="pagination-buttons">
-            <img src={leftArrow} alt="Previous" onClick={() => handlePageChange('prev')} disabled={currentPage === 0} />
-            <img src={rightArrow} alt="Next" onClick={() => handlePageChange('next')} disabled={currentPage === Math.ceil(userData.petitions.length / 3) - 1} />
-          </div>
+              <img src={leftArrow} alt="Previous" onClick={() => handlePageChange('prev')} disabled={currentPage === 0} />
+              <img src={rightArrow} alt="Next" onClick={() => handlePageChange('next')} disabled={currentPage === Math.ceil(userData.petitions.length / 3) - 1} />
+            </div>
           )}
         </div>
       )}
-      <button className="back-button" onClick={handleGoBack}>Назад</button>
     </div>
   );
 };
