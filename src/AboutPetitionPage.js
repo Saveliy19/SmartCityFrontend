@@ -47,22 +47,30 @@ function PetitionPage() {
   };
 
   const handleLike = async () => {
-    try {
-      // Отправляем запрос на сервер для установки/удаления лайка
-      await axios.post('http://127.0.0.1:8000/like_petition', {
-        user_token: localStorage.getItem('token'),
-        petition_id: petitionId
-      });
-      // Обновляем состояние isLiked
-      setIsLiked(!isLiked);
-      // Обновляем данные о петиции, чтобы получить актуальное количество лайков
-      const response = await axios.post('http://127.0.0.1:8000/get_petition_data', {
-        id: petitionId 
-      });
-      setPetition(response.data[0]);
-    } catch (error) {
-      console.error('Произошла ошибка при установке/удалении лайка:', error);
+    if (!localStorage.getItem('token')) {
+      // Показываем уведомление об авторизации
+      alert('Пожалуйста, авторизуйтесь, чтобы поставить подпись.');
+      return;
     }
+    else {
+      try {
+        // Отправляем запрос на сервер для установки/удаления лайка
+        await axios.post('http://127.0.0.1:8000/like_petition', {
+          user_token: localStorage.getItem('token'),
+          petition_id: petitionId
+        });
+        // Обновляем состояние isLiked
+        setIsLiked(!isLiked);
+        // Обновляем данные о петиции, чтобы получить актуальное количество лайков
+        const response = await axios.post('http://127.0.0.1:8000/get_petition_data', {
+          id: petitionId 
+        });
+        setPetition(response.data[0]);
+      } catch (error) {
+        console.error('Произошла ошибка при установке/удалении лайка:', error);
+      }
+    }
+    
   };
   
   
