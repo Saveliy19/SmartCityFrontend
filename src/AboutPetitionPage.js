@@ -11,7 +11,7 @@ function PetitionPage() {
   const [petition, setPetition] = useState(null);
   const { petitionId } = useParams();
   const navigate = useNavigate(); // Использование useNavigate для навигации
-  const [isLiked, setIsLiked] = useState(false);
+  const [isLiked, setIsLiked] = useState(null);
 
 
   useEffect(() => {
@@ -26,16 +26,45 @@ function PetitionPage() {
       }
     };
 
+    const fetchLike = async () => {
+      try {
+        const like = await axios.post('http://127.0.0.1:8000/check_like', {
+          user_token: localStorage.getItem('token'),
+          petition_id: petitionId 
+        });
+        setIsLiked(like.data.result);
+      } catch (error) {
+        console.error('Произошла ошибка при загрузке данных:', error);
+      }
+    };
+
     fetchData();
+    fetchLike();
   }, [petitionId]);
 
   const handleGoBack = () => {
     navigate(-1); // Функция, чтобы вернуться на предыдущую страницу
   };
 
-  const handleLike = () => {
-    setIsLiked(!isLiked); // Изменение состояния при каждом нажатии
+  const handleLike = async () => {
+    try {
+      // Отправляем запрос на сервер для установки/удаления лайка
+      await axios.post('http://127.0.0.1:8000/like_petition', {
+        user_token: localStorage.getItem('token'),
+        petition_id: petitionId
+      });
+      // Обновляем состояние isLiked
+      setIsLiked(!isLiked);
+      // Обновляем данные о петиции, чтобы получить актуальное количество лайков
+      const response = await axios.post('http://127.0.0.1:8000/get_petition_data', {
+        id: petitionId 
+      });
+      setPetition(response.data[0]);
+    } catch (error) {
+      console.error('Произошла ошибка при установке/удалении лайка:', error);
+    }
   };
+  
   
 
   if (!petition) {
