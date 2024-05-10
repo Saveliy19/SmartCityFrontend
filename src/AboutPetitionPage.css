@@ -1,47 +1,39 @@
-.petition-container {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start; /* Выравнивание по верхнему краю */
-    height: 100vh; /* Высота страницы заявки будет занимать весь экран */
-  }
-  
-  .petition-content {
-    background-color: #67c2c5; /* Цвет фона блока с содержимым */
-    border-radius: 20px; /* Радиус скругления углов */
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); /* Тень блока */
-    padding: 20px; /* Отступы внутри блока */
-    width: 90%; /* Ширина блока */
-    max-width: 800px; /* Максимальная ширина блока */
-  }
-  
-  
-  .petition-content p {
-    margin-bottom: 10px; /* Дополнительный отступ между параграфами */
-  }
-  
-  /* Дополнительные стили для заголовка */
-  .petition-content p:first-child {
-    font-size: 24px; /* Увеличение размера заголовка */
-    font-weight: bold; /* Жирное начертание */
-  }
-  
-  /* Добавленные классы для изменения цвета текста */
-.text-red {
-    color: red;
-  }
-  
-  .text-green {
-    color: green;
-  }
-  
-  .like-icon {
-    width: 20px;
-    height: 20px;
-    margin-left: 5px;
-    cursor: pointer;
-  }
-  
-  .liked {
-    filter: grayscale(0%); /* Для изменения цвета иконки при нажатии */
-  }
-  
+/* AboutPetitionPage.css */
+
+.petition-content {
+  margin-top: 20px;
+  padding: 20px;
+  border: 2px solid #0080ff; /* Цвет границы соответствует заголовку */
+  border-radius: 20px;
+  background-color: #f9f9f9; /* Фоновый цвет, согласованный с заголовком */
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.petition-content p {
+  margin-bottom: 10px;
+}
+
+.petition-content button {
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  border: 1px solid #007aff;
+  color: #007aff;
+  margin-top: 10px;
+}
+
+.petition-content button:hover {
+  background-color: #007aff;
+  color: #ffffff;
+}
+
+.like-icon {
+  width: 20px;
+  height: 20px;
+  margin-left: 5px;
+  cursor: pointer;
+}

@@ -1,8 +1,10 @@
 .profile-page {
   display: flex;
   justify-content: center;
-  background-color: #f0f0f0;
-  color: black;
+  background-color: white; /* Белый цвет фона */
+  color: black; /* Черный цвет текста */
+  padding: 20px;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1); /* Добавление тени */
 }
 
 .user-info {
@@ -16,12 +18,16 @@
 .profile-image {
   width: 50%;
   height: 50%;
-  border-radius: 50%;
+  border-radius: 50%; /* Делаем рамку круглой */
+  border: 3px solid #0056b3; /* Синяя рамка толщиной 3px */
 }
 
+
 .petitions-container {
-  background-color: #f0f0f0;
+  background-color: white; /* Белый цвет фона */
+  color: #0056b3; /* Черный цвет текста */
   margin-top: 20px;
+  box-shadow: 0px 0px 20px rgba(0, 0, 255, 0.1); /* Добавление тени с синим оттенком */
 }
 
 .petitions-list-container {
@@ -35,11 +41,12 @@
 }
 
 .petition-item {
-  border: 3px solid #000000;
-  background-color: #cacaca;
+  border: 3px solid #0056b3; /* Синяя рамка толщиной 3px */
+  background-color: #f0f0f0; /* Светло-серый цвет фона */
   border-radius: 20px;
   padding: 10px;
   margin-right: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 255, 0.2); /* Добавление тени с синим оттенком */
 }
 
 .pagination-buttons {
@@ -49,19 +56,22 @@
 }
 
 .pagination-buttons img {
-  width: 3%;
-  height: 3%;
+  width: 40px; /* Увеличиваем размер кнопок */
+  height: 40px;
   cursor: pointer;
 }
 
 .button-container {
   display: flex;
-  justify-content:space-around;
+  justify-content: space-around;
   margin-top: 1%;
 }
 
-.pagination-buttons img {
-  width: 3%;
-  height: 3%;
+.button-container img {
+  width: 30px; /* Размер иконок кнопок */
+  height: 30px;
   cursor: pointer;
+  border: 3px solid #0056b3; /* Синяя рамка толщиной 3px */
+  border-radius: 5px; /* Скругляем углы рамки */
+  box-shadow: 0px 0px 10px rgba(0, 0, 255, 0.2); /* Добавление тени с синим оттенком */
 }

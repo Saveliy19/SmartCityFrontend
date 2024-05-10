@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './RegistrationPage.css'; // Импортируем файл стилей
+import Header from './Header'; // Импорт компонента Header
 
 function RegistrationPage() {
   const [formData, setFormData] = useState({
@@ -80,7 +81,9 @@ function RegistrationPage() {
   };
 
   return (
-    <div className="registration-page">
+    <div>
+      <Header />
+      <div className="registration-page">
       <div className="registration-header">
         <h2>Форма регистрации</h2>
       </div>
@@ -169,6 +172,8 @@ function RegistrationPage() {
         )}
       </div>
     </div>
+    </div>
+    
   );
 }
 

@@ -81,8 +81,7 @@ function PetitionPage() {
 
   return (
     <div>
-    <Header />
-    <div className="petition-container">
+      <Header />
       <div className="petition-content">
         <p>ID: {petition.id} {petition.header}</p>
         <p>ID заявителя: {petition.petitioner_id}</p>
@@ -110,7 +109,6 @@ function PetitionPage() {
         )}
         {/* Дополните отображение данных о петиции по вашему усмотрению */}
       </div>
-    </div>
     </div>
   );
 }
