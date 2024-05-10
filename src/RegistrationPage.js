@@ -160,7 +160,6 @@ function RegistrationPage() {
                 onChange={handleChange}
                 required
               >
-                <option value="">Выберите город</option>
                 <option value="Емва">Емва</option>
                 <option value="Сыктывкар">Сыктывкар</option>
               </select>
