@@ -40,14 +40,10 @@ function Header() {
 
   return (
     <header className="header-container">
-      <div className="header-left">
       <Link to="/">
         <img src={logo} alt="Логотип Умного Города" className="logo" />
       </Link>
-      </div>
-      <div className="header-center">
         <h1>Умный Город</h1>
-      </div>
       <div className="header-right">
         {isLoggedIn ? (
           <>

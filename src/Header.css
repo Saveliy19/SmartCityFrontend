@@ -8,16 +8,7 @@
   padding: 10px 0;
 }
 
-.header-left,
-.header-right {
-  display: flex;
-  align-items: center;
-}
 
-.header-center {
-  flex-grow: 1;
-  text-align: center;
-}
 
 .logo {
   width: 100px;
