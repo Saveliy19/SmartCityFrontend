@@ -48,6 +48,9 @@ function ComplaintsPage() {
   } else if (sortByDate === "Сначала старые") {
     filteredPetitions.sort((a, b) => new Date(a.date) - new Date(b.date));
   }
+  else if (sortByDate === "Сначала популярные") {
+    filteredPetitions.sort((a, b) => b.likes - a.likes);
+  }
 
   return (
     <div>
@@ -74,6 +77,7 @@ function ComplaintsPage() {
           <select className="filter-select" value={sortByDate} onChange={e => setSortByDate(e.target.value)}>
             <option value="Сначала новые">Сначала новые</option>
             <option value="Сначала старые">Сначала старые</option>
+            <option value="Сначала популярные">Сначала популярные</option>
           </select>
         </div>
 
