@@ -1,0 +1,54 @@
+.admin-container {
+    margin: 20px;
+  }
+  
+  .admin-title {
+    text-align: center;
+    color: #007aff;
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  .admin-data {
+    background-color: #f9f9f9;
+    border: 2px solid #0080ff;
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center; /* Центрирование текста */
+  }
+  
+  .admin-data p {
+    margin-bottom: 10px;
+  }
+  
+  .loading {
+    color: #007aff;
+  }
+  
+  .admin-icon {
+    width: 7%; /* Установите желаемую ширину иконки */
+    height: auto; /* Сохранение пропорций */
+    margin-bottom: 20px; /* Дополнительный отступ снизу */
+    border-radius: 50%; /* Делаем круглую рамку */
+    border: 2px solid #007aff; /* Цвет и толщина рамки */
+  }
+  
+  .admin-buttons {
+    margin-top: 20px;
+  }
+  
+  .admin-buttons a {
+    display: inline-block;
+    padding: 10px 20px;
+    margin-right: 10px;
+    background-color: #007aff;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 8px;
+  }
+  
+  .admin-buttons a:hover {
+    background-color: #0056b3;
+  }
+  
