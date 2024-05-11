@@ -24,7 +24,7 @@
 
 .complaint-item {
   width: 22%;
-  background-color: #ffffff;
+  background-color: #80aaf7;
   border: 3px solid #0080ff;
   border-radius: 10px;
   padding: 20px; /* Увеличил внутренний отступ */
@@ -56,19 +56,38 @@ h2 {
   margin-bottom: 20px;
 }
 
+.elements {
+  display: flex;
+  justify-content:center;
+}
+
 .button-back {
-  padding: 10px 20px;
+  padding: 5px 20px;
   font-size: 16px;
   border: none;
   cursor: pointer;
   background-color: #f9f9f9;
-  border: 2px solid #007aff; /* Использование синего цвета для кнопки */
+  border: 2px solid #007aff;
   color: #007aff;
   border-radius: 8px;
-  margin-top: 20px; /* Увеличил отступ сверху */
+  margin-left: 10px;
+  margin-bottom: 10px;
 }
 
 .button-back:hover {
   background-color: #007aff;
   color: #ffffff;
+}
+
+.filter-container {
+  margin-bottom: 20px;
+}
+
+.filter-label {
+  margin-right: 10px;
+}
+
+.filter-select {
+  padding: 5px 10px;
+  font-size: 14px;
 }

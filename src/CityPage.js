@@ -41,60 +41,57 @@ function CityPage({ cityName }) {
   return (
     <div>
       <Header />
-      <div className="description-container">
-        <div className="description">
-          <div className="data-panel-container">
-            <div className="data-panel">
-              <div className="data-row">
-                <div className="data-column">
-                  {cityData ? (
-                    <div>
-                      <p style={{ fontWeight: 'bold' }}>Результаты работы сервиса в городе</p>
-                      <p>Петиций: {cityData.petitions_count}</p>
-                      <p>Инициатив: {cityData.initiatives_count}</p>
-                      <p>Самая популярная категория жалоб: {cityData.most_popular_petition}</p>
-                      <p>Самая популярная категория инициатив: {cityData.most_popular_initiative}</p>
-                      <p>Решенных проблем: {cityData.solved_percent}%</p>
-                      <p><progress value={cityData.solved_percent} max="100"></progress></p>
-                      <p>Принятых инициатив: {cityData.accepted_percent}%</p>
-                      <p><progress value={cityData.accepted_percent} max="100"></progress></p>
-                    </div>
-                  ) : (
-                    <p>Загрузка данных...</p>
-                  )}
-                </div>
-                <div className="data-column">
-                  {regionData ? (
-                    <div>
-                      <p style={{ fontWeight: 'bold' }}>Результаты работы сервиса в регионе</p>
-                      <p>Петиций: {regionData.petitions_count}</p>
-                      <p>Инициатив: {regionData.initiatives_count}</p>
-                      <p>Самая популярная категория жалоб: {regionData.most_popular_petition}</p>
-                      <p>Самая популярная категория инициатив: {regionData.most_popular_initiative}</p>
-                      <p>Решенных проблем: {regionData.solved_percent}%</p>
-                      <p><progress value={regionData.solved_percent} max="100"></progress></p>
-                      <p>Принятых инициатив: {regionData.accepted_percent}%</p>
-                      <p><progress value={regionData.accepted_percent} max="100"></progress></p>
-                    </div>
-                  ) : (
-                    <p>Загрузка данных...</p>
-                  )}
-                </div>
+      <div className='city-page-content'>
+        <h1>{cityName}</h1>
+        <div className="data-panel-container">
+                  <div className="data-column">
+                    {cityData ? (
+                      <div>
+                        <p style={{ fontWeight: 'bold' }}>Результаты работы сервиса в городе</p>
+                        <p>Петиций: {cityData.petitions_count}</p>
+                        <p>Инициатив: {cityData.initiatives_count}</p>
+                        <p>Самая популярная категория жалоб: {cityData.most_popular_petition}</p>
+                        <p>Самая популярная категория инициатив: {cityData.most_popular_initiative}</p>
+                        <p>Решенных проблем: {cityData.solved_percent}%</p>
+                        <p><progress value={cityData.solved_percent} max="100"></progress></p>
+                        <p>Принятых инициатив: {cityData.accepted_percent}%</p>
+                        <p><progress value={cityData.accepted_percent} max="100"></progress></p>
+                      </div>
+                    ) : (
+                      <p>Загрузка данных...</p>
+                    )}
+                  </div>
+                  <div className="data-column">
+                    {regionData ? (
+                      <div>
+                        <p style={{ fontWeight: 'bold' }}>Результаты работы сервиса в регионе</p>
+                        <p>Петиций: {regionData.petitions_count}</p>
+                        <p>Инициатив: {regionData.initiatives_count}</p>
+                        <p>Самая популярная категория жалоб: {regionData.most_popular_petition}</p>
+                        <p>Самая популярная категория инициатив: {regionData.most_popular_initiative}</p>
+                        <p>Решенных проблем: {regionData.solved_percent}%</p>
+                        <p><progress value={regionData.solved_percent} max="100"></progress></p>
+                        <p>Принятых инициатив: {regionData.accepted_percent}%</p>
+                        <p><progress value={regionData.accepted_percent} max="100"></progress></p>
+                      </div>
+                    ) : (
+                      <p>Загрузка данных...</p>
+                    )}
+                  </div>
+            </div>
+            <div className="links">
+              <div className="petitions">
+                <Link to={`/petitions/${cityName}`}>К жалобам</Link>
               </div>
+              <button className='button-back' onClick={handleGoBack}>Назад</button> {/* Кнопка "Назад" */}
+              <div className="complaints">
+                <Link to={`/initiatives/${cityName}`}>К инициативам</Link>
+              </div>
+              
             </div>
-          </div>
-          <div className="links">
-            <div className="petitions">
-              <Link to={`/petitions/${cityName}`}>К петициям</Link>
-            </div>
-            <div className="complaints">
-              <Link to={`/initiatives/${cityName}`}>К инициативам</Link>
-            </div>
-          </div>
-        </div>
       </div>
-      <button onClick={handleGoBack}>Назад</button> {/* Кнопка "Назад" */}
-    </div>
+          
+      </div>
   );
 }
 
