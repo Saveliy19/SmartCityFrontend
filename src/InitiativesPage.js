@@ -61,7 +61,6 @@ function ComplaintsPage() {
           <select className="filter-select" value={sortByStatus} onChange={e => setSortByStatus(e.target.value)}>
             <option value="Все">Все</option>
             <option value="Отклонено">Отклонено</option>
-            <option value="На модерации">На модерации</option>
             <option value="На рассмотрении">На рассмотрении</option>
             <option value="Одобрено">Одобрено</option>
           </select>

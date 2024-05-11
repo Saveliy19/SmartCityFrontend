@@ -39,8 +39,7 @@ const AdminDashboard = () => {
 
           {/* Кнопки для перехода на другие страницы */}
           <div className="admin-buttons">
-            <Link to={`/admin-petitions/${adminData.city}`}>Жалобы</Link>
-            <Link to={`/admin-initiatives/${adminData.city}`}>Инициативы</Link>
+            <Link to={`/admin-petitions/${adminData.region}/${adminData.city}`}>Петиции</Link>
             <Link to="/admin-statistics">Статистика</Link>
           </div>
         </div>

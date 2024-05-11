@@ -10,6 +10,7 @@ import RegistrationPage from './RegistrationPage'
 import AdministratorPage from './AdministratorPage';
 import ProfilePage from './ProfilePage';
 import PetitionMakingPage from './PetitionMakingPage';
+import AdminPetitionsPage from './AdminPetitionsPage';
 // import UkhtaPage from './UkhtaPage';
 // import PechoraPage from './PechoraPage';
 // import NotFoundPage from './NotFoundPage';
@@ -28,6 +29,7 @@ function App() {
         <Route path="/admin" element={<AdministratorPage />} />
         <Route path="/user" element={<ProfilePage />} />
         <Route path="/create-petition" element={<PetitionMakingPage />} />
+        <Route path="/admin-petitions/:regionName/:cityName" element={<AdminPetitionsPage />} />
         {/* <Route path="/ukhta" element={<UkhtaPage />} /> */}
         {/* <Route path="/pechora" element={<PechoraPage />} /> */}
         {/* <Route path="*" element={<NotFoundPage />} /> */}

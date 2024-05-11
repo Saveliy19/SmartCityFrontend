@@ -91,6 +91,7 @@ const ProfilePage = () => {
                   textTransform: 'uppercase' }}>
                   {petition.status}</p>
                   <p><strong>Адрес:</strong> {petition.address}</p>
+                  <p><strong>Подписей:</strong> {petition.likes}</p>
                 </p>
               ))}
             </ul>
