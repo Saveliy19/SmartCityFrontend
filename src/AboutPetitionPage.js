@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import Header from './Header'; // Импорт компонента Header
 import './AboutPetitionPage.css'; // Подключаем файл со стилями
 import { useNavigate } from 'react-router-dom'; // Импорт useNavigate из react-router-dom
@@ -12,6 +12,8 @@ function PetitionPage() {
   const { petitionId } = useParams();
   const navigate = useNavigate(); // Использование useNavigate для навигации
   const [isLiked, setIsLiked] = useState(null);
+  const isModerator = localStorage.getItem('is_moderator') === 'true';
+
 
 
   useEffect(() => {
@@ -96,17 +98,28 @@ function PetitionPage() {
                   textTransform: 'uppercase' }}>
                   {petition.status}</p>
         <p>Количество подписей: {petition.likes_count}</p>
+        <div className='button-panel'>
         <button onClick={handleGoBack}>Назад</button> {/* Кнопка "Назад" */}
-        {isLiked ? (
-          <img
-            src={likeIcon}
-            alt="Like"
-            className="like-icon"
-            onClick={handleLike}
-          />
+        {isModerator ? (
+          <Link to={`/update-petition/${petition.id}`}>
+            <button className='update-button'>Обновить статус</button>
+          </Link>
         ) : (
-          <button onClick={handleLike}>Поставить подпись</button>
+          <div>
+            {isLiked ? (
+              <img
+                src={likeIcon}
+                alt="Like"
+                className="like-icon"
+                onClick={handleLike}
+              />
+            ) : (
+              <button onClick={handleLike}>Поставить подпись</button>
+            )}
+          </div>
         )}
+        </div>
+        
         {/* Дополните отображение данных о петиции по вашему усмотрению */}
       </div>
     </div>

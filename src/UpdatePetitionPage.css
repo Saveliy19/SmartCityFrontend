@@ -1,0 +1,34 @@
+.petition-status-form {
+    width: 40%;
+    background-color: #f9f9f9;
+    border: 2px solid #0080ff;
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 3% auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Добавлено для выравнивания содержимого по центру */
+}
+
+.form-group {
+    margin-bottom: 20px;
+    width: 100%; /* Добавлено для установки ширины формы на 100% */
+}
+
+.success-message {
+    color: green;
+    margin-bottom: 3%;
+}
+
+.button-group {
+    width: 100%; /* Добавлено для установки ширины кнопочной группы на 100% */
+    display: flex;
+    justify-content: space-between;
+}
+
+textarea {
+    width: 100%; /* Установить ширину на 100% */
+    height: 200px; /* Установить желаемую высоту */
+    resize: none; /* Разрешить вертикальное изменение размера, если нужно */
+}

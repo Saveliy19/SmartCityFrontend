@@ -33,14 +33,6 @@ function HomePage() {
           <img src={emvaIcon} alt="Герб Емвы" />
           <Link to="/emva">Емва</Link>
         </div>
-        <div className="city-item">
-          <img src={ukhtaIcon} alt="Герб Ухты" />
-          <Link to="/ukhta">Ухта</Link>
-        </div>
-        <div className="city-item">
-          <img src={pechoraIcon} alt="Герб Печоры" />
-          <Link to="/pechora">Печора</Link>
-        </div>
       </div>
     </div>
   );

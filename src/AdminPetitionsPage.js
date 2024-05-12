@@ -135,9 +135,6 @@ function AdminPetitionsPage() {
                   </p>
                 </div>
                 <div className='petition-container-item'>
-                  <Link to={`/update-petition/${petition.id}`}>
-                    <button className='update-button'>Обновить статус</button>
-                  </Link>
                 </div>
                 
               </div>

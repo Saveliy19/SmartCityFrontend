@@ -5,7 +5,7 @@
   padding: 20px;
   border: 2px solid #0080ff; /* Цвет границы соответствует заголовку */
   border-radius: 20px;
-  background-color: #f9f9f9; /* Фоновый цвет, согласованный с заголовком */
+  background-color: #e9e9e9; /* Фоновый цвет, согласованный с заголовком */
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
@@ -32,8 +32,13 @@
 }
 
 .like-icon {
-  width: 20px;
-  height: 20px;
+  width: 80%;
+  height: auto;
   margin-left: 5px;
   cursor: pointer;
+}
+
+.button-panel {
+  display: flex;
+
 }
