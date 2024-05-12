@@ -13,6 +13,7 @@ function PetitionPage() {
   const navigate = useNavigate(); // Использование useNavigate для навигации
   const [isLiked, setIsLiked] = useState(null);
   const isModerator = localStorage.getItem('is_moderator') === 'true';
+  const [comments, setComments] = useState([]);
 
 
 
@@ -23,6 +24,7 @@ function PetitionPage() {
           id: petitionId 
         });
         setPetition(response.data[0]);
+        setComments(response.data[0].comments);
       } catch (error) {
         console.error('Произошла ошибка при загрузке данных:', error);
       }
@@ -84,6 +86,7 @@ function PetitionPage() {
   return (
     <div>
       <Header />
+      <h2>Полная информация о заявке:</h2>
       <div className="petition-content">
         <p>ID: {petition.id} {petition.header}</p>
         <p>ID заявителя: {petition.petitioner_id}</p>
@@ -119,9 +122,18 @@ function PetitionPage() {
           </div>
         )}
         </div>
-        
-        {/* Дополните отображение данных о петиции по вашему усмотрению */}
       </div>
+      <h2>Комментарии:</h2>
+      <div className="comments-section">
+          {comments.map((comment) => (
+            <div key={comment.date} className="comment">
+              <strong><p>Комментарий модератора</p></strong>
+              <p>{comment.data}</p>
+              <strong><p>Дата</p></strong>
+              <p>{comment.date}</p>
+            </div>
+          ))}
+        </div>
     </div>
   );
 }
