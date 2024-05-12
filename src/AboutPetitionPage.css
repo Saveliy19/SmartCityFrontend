@@ -31,6 +31,12 @@
   color: #ffffff;
 }
 
+.petition-content img {
+  width: 100px; /* Фиксированная ширина изображений */
+  height: auto;
+  margin-bottom: 10px; /* Добавим небольшой отступ снизу */
+}
+
 .like-icon {
   width: 80%;
   height: auto;
@@ -60,4 +66,64 @@
   border-radius: 8px; /* скругление углов */
   padding: 10px; /* отступ внутри блока */
   margin-bottom: 10px; /* отступ снизу между блоками */
+}
+
+.photos-section {
+  margin-top: 20px;
+  display: flex; /* Размещаем фотографии в одну линию */
+  overflow-x: auto; /* Добавляем горизонтальную прокрутку при необходимости */
+}
+
+.petition-photo {
+  width: 800px; /* Ширина каждого изображения */
+  height: auto; /* Автоматическая высота для поддержки соотношения сторон */
+  border-radius: 10px; /* Скругляем углы */
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Добавляем тень для эффекта возвышения */
+  margin-right: 10px; /* Отступ справа между изображениями */
+  flex-shrink: 0; /* Запрещаем сжатие изображений для поддержания их оригинального размера */
+}
+
+.photos-section::-webkit-scrollbar {
+  display: none; /* Скрыть полосу прокрутки вебкит-браузеров */
+}
+
+.modal {
+  display: block;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.7); /* Прозрачный черный фон */
+}
+
+/* Стилизуем содержимое модального окна */
+.modal-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+/* Стилизуем изображение в модальном окне */
+.modal-content img {
+  width: 800px; /* Максимальная ширина изображения */
+  height: auto; /* Максимальная высота изображения */
+  border-radius: 10px; /* Скругляем углы */
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5); /* Добавляем тень для эффекта возвышения */
+}
+
+/* Стилизуем кнопку для закрытия модального окна */
+.close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 30px;
+  color: white;
+  cursor: pointer;
+}
+
+.close:hover {
+  color: #ccc;
 }

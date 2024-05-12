@@ -1,21 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link, useParams } from 'react-router-dom';
-import Header from './Header'; // Импорт компонента Header
-import './AboutPetitionPage.css'; // Подключаем файл со стилями
-import { useNavigate } from 'react-router-dom'; // Импорт useNavigate из react-router-dom
+import Header from './Header';
+import './AboutPetitionPage.css';
+import { useNavigate } from 'react-router-dom';
 import likeIcon from './like.png';
-
 
 function PetitionPage() {
   const [petition, setPetition] = useState(null);
   const { petitionId } = useParams();
-  const navigate = useNavigate(); // Использование useNavigate для навигации
+  const navigate = useNavigate();
   const [isLiked, setIsLiked] = useState(null);
   const isModerator = localStorage.getItem('is_moderator') === 'true';
   const [comments, setComments] = useState([]);
-
-
+  const [photos, setPhotos] = useState([]);
+  const [modalImageUrl, setModalImageUrl] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -25,8 +24,9 @@ function PetitionPage() {
         });
         setPetition(response.data[0]);
         setComments(response.data[0].comments);
+        setPhotos(response.data[0].photos); // Set photos from the response
       } catch (error) {
-        console.error('Произошла ошибка при загрузке данных:', error);
+        console.error('Error fetching petition data:', error);
       }
     };
 
@@ -38,7 +38,7 @@ function PetitionPage() {
         });
         setIsLiked(like.data.result);
       } catch (error) {
-        console.error('Произошла ошибка при загрузке данных:', error);
+        console.error('Error fetching like status:', error);
       }
     };
 
@@ -47,93 +47,113 @@ function PetitionPage() {
   }, [petitionId]);
 
   const handleGoBack = () => {
-    navigate(-1); // Функция, чтобы вернуться на предыдущую страницу
+    navigate(-1);
+  };
+
+  const openModal = (imageUrl) => {
+    setModalImageUrl(imageUrl);
+  };
+
+  const closeModal = () => {
+    setModalImageUrl(null);
   };
 
   const handleLike = async () => {
     if (!localStorage.getItem('token')) {
-      // Показываем уведомление об авторизации
-      alert('Пожалуйста, авторизуйтесь, чтобы поставить подпись.');
+      alert('Please login to like the petition.');
       return;
     }
     else {
       try {
-        // Отправляем запрос на сервер для установки/удаления лайка
         await axios.post('http://127.0.0.1:8000/like_petition', {
           user_token: localStorage.getItem('token'),
           petition_id: petitionId
         });
-        // Обновляем состояние isLiked
         setIsLiked(!isLiked);
-        // Обновляем данные о петиции, чтобы получить актуальное количество лайков
         const response = await axios.post('http://127.0.0.1:8000/get_petition_data', {
           id: petitionId 
         });
         setPetition(response.data[0]);
       } catch (error) {
-        console.error('Произошла ошибка при установке/удалении лайка:', error);
+        console.error('Error liking petition:', error);
       }
     }
-    
   };
-  
-  
 
   if (!petition) {
-    return <div>Loading...</div>; // Добавим заглушку для загрузки данных
+    return <div>Loading...</div>;
   }
 
   return (
     <div>
       <Header />
-      <h2>Полная информация о заявке:</h2>
+      {modalImageUrl && (
+        <div className="modal" onClick={closeModal}>
+          <div className="modal-content">
+            <span className="close" onClick={closeModal}>&times;</span>
+            <img src={modalImageUrl} alt="Selected" />
+          </div>
+        </div>
+      )}
+      <h2>Информация о петиции:</h2>
       <div className="petition-content">
-        <p>ID: {petition.id} {petition.header}</p>
-        <p>ID заявителя: {petition.petitioner_id}</p>
-        <p>Адрес: {petition.region}, город {petition.city_name}, {petition.address}</p>
+        <p><strong>ID:</strong> {petition.id} {petition.header}</p>
+        <p><strong>ID заявителя:</strong> {petition.petitioner_id}</p>
+        <p><strong>Адрес: </strong> {petition.region}, {petition.city_name}, {petition.address}</p>
         <p><span className={petition.is_initiative ? "text-green" : "text-red"}>
-          {petition.is_initiative ? "ИНИЦИАТИВА" : "ЖАЛОБА"}</span> в категории "{petition.category}"</p>
-        <p>Описание: {petition.description}</p>
-        <p>Дата подачи: {petition.submission_time}</p>
+          {petition.is_initiative ? "Инициатива" : "Жалоба"}</span> в категории "{petition.category}"</p>
+        <p><strong>Описание:</strong> {petition.description}</p>
+        <p><strong>Дата загрузки на портал:</strong> {petition.submission_time}</p>
         <p style={{ color: petition.status === 'Решено' || petition.status === 'Одобрено' ? 'green' :
                    petition.status === 'В работе' || petition.status === 'На рассмотрении' ? 'yellow' :
-                  petition.status === 'Отклонено' ? 'red' : 'blue', 
-                  textTransform: 'uppercase' }}>
-                  {petition.status}</p>
-        <p>Количество подписей: {petition.likes_count}</p>
-        <div className='button-panel'>
-        <button onClick={handleGoBack}>Назад</button> {/* Кнопка "Назад" */}
-        {isModerator ? (
-          <Link to={`/update-petition/${petition.id}`}>
-            <button className='update-button'>Обновить статус</button>
-          </Link>
-        ) : (
-          <div>
-            {isLiked ? (
-              <img
-                src={likeIcon}
-                alt="Like"
-                className="like-icon"
-                onClick={handleLike}
-              />
-            ) : (
-              <button onClick={handleLike}>Поставить подпись</button>
-            )}
-          </div>
-        )}
-        </div>
-      </div>
-      <h2>Комментарии:</h2>
-      <div className="comments-section">
-          {comments.map((comment) => (
-            <div key={comment.date} className="comment">
-              <strong><p>Комментарий модератора</p></strong>
-              <p>{comment.data}</p>
-              <strong><p>Дата</p></strong>
-              <p>{comment.date}</p>
-            </div>
+                   petition.status === 'Отклонено' ? 'red' : 'blue', 
+                   textTransform: 'uppercase' }}>
+                   {petition.status}</p>
+        <p><strong>Количество подписей:</strong> {petition.likes_count}</p>
+        <div className="photos-section">
+          {photos.map((photo, index) => (
+            <img
+              key={index}
+              src={photo}
+              alt={`Photo ${index + 1}`}
+              className="petition-photo"
+              onClick={() => openModal(photo)}
+            />
           ))}
         </div>
+        <div className='button-panel'>
+          <button onClick={handleGoBack}>Назад</button>
+          {isModerator ? (
+            <Link to={`/update-petition/${petition.id}`}>
+              <button className='update-button'>Обновить статус</button>
+            </Link>
+          ) : (
+            <div>
+              {isLiked ? (
+                <img
+                  src={likeIcon}
+                  alt="Like"
+                  className="like-icon"
+                  onClick={handleLike}
+                />
+              ) : (
+                <button onClick={handleLike}>Поставить подпись</button>
+              )}
+            </div>
+          )}
+        </div>
+      </div>
+      <h2>Комментарии администрации</h2>
+      <div className="comments-section">
+        {comments.map((comment, index) => (
+          <div key={index} className="comment">
+            <strong><p>Комментарий</p></strong>
+            <p>{comment.data}</p>
+            <strong><p>Date</p></strong>
+            <p>{comment.date}</p>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
