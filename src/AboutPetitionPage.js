@@ -98,7 +98,7 @@ function PetitionPage() {
       <h2>Информация о петиции:</h2>
       <div className="petition-content">
         <p><strong>ID:</strong> {petition.id} {petition.header}</p>
-        <p><strong>ID заявителя:</strong> {petition.petitioner_id}</p>
+        <p><strong>Email заявителя:</strong> {petition.petitioner_email}</p>
         <p><strong>Адрес: </strong> {petition.region}, {petition.city_name}, {petition.address}</p>
         <p><span className={petition.is_initiative ? "text-green" : "text-red"}>
           {petition.is_initiative ? "Инициатива" : "Жалоба"}</span> в категории "{petition.category}"</p>
