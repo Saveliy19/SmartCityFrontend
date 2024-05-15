@@ -40,7 +40,7 @@ const AdminDashboard = () => {
           {/* Кнопки для перехода на другие страницы */}
           <div className="admin-buttons">
             <Link to={`/admin-petitions/${adminData.region}/${adminData.city}`}>К петициям</Link>
-            <Link to="/admin-statistics">Статистика</Link>
+            <Link to={`/admin-statistics/${adminData.region}/${adminData.city}`}>Статистика</Link>
           </div>
         </div>
       ) : (

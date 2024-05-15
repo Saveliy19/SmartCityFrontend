@@ -11,7 +11,8 @@ import AdministratorPage from './AdministratorPage';
 import ProfilePage from './ProfilePage';
 import PetitionMakingPage from './PetitionMakingPage';
 import AdminPetitionsPage from './AdminPetitionsPage';
-import UpdatePetitionPage from './UpdatePetitionPage'
+import UpdatePetitionPage from './UpdatePetitionPage';
+import AdminStatisticsPage from './ AdminStatisticsPage';
 // import UkhtaPage from './UkhtaPage';
 // import PechoraPage from './PechoraPage';
 // import NotFoundPage from './NotFoundPage';
@@ -31,6 +32,7 @@ function App() {
         <Route path="/user" element={<ProfilePage />} />
         <Route path="/create-petition" element={<PetitionMakingPage />} />
         <Route path="/admin-petitions/:regionName/:cityName" element={<AdminPetitionsPage />} />
+        <Route path="/admin-statistics/:regionName/:cityName" element={<AdminStatisticsPage />} />
         <Route path="/update-petition/:petitionId" element={<UpdatePetitionPage />} />
         {/* <Route path="/ukhta" element={<UkhtaPage />} /> */}
         {/* <Route path="/pechora" element={<PechoraPage />} /> */}
