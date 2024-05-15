@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
 import Chart from 'chart.js/auto';
-import { Bar } from 'react-chartjs-2';
+import { Bar, Line } from 'react-chartjs-2';
 
 const AnalyticsPage = () => {
   const { regionName, cityName } = useParams();
@@ -18,6 +18,9 @@ const AnalyticsPage = () => {
   const [complaintChartRegion, setComplaintChartRegion] = useState(null);
   const [initiativeChart, setInitiativeChart] = useState(null);
   const [initiativeChartRegion, setInitiativeChartRegion] = useState(null);
+
+  const [complaintsPerDay, setComplaintsPerDay] = useState({});
+  const [initiativesPerDay, setInitiativesPerDay] = useState({});
 
   const userToken = localStorage.getItem('token');
 
@@ -67,6 +70,7 @@ const AnalyticsPage = () => {
         initiativeChartRegion.clear();
         initiativeChartRegion.destroy();
       }
+      
 
       const categoriesCity = Object.keys(analyticsData.count_per_category_city);
       const countDataCity = Object.values(analyticsData.count_per_category_city);
@@ -83,7 +87,7 @@ const AnalyticsPage = () => {
         datasets: [
           {
             data: countDataCity,
-            label: "Количество по категориям в городе",
+            label: "Количество",
             borderColor: "#3333ff",
             backgroundColor: "rgba(0, 0, 255, 0.5)",
             fill: true
@@ -96,7 +100,7 @@ const AnalyticsPage = () => {
         datasets: [
           {
             data: initiativeCountDataCity,
-            label: "Количество по категориям в городе",
+            label: "Количество",
             borderColor: "#3333ff",
             backgroundColor: "rgba(0, 0, 255, 0.5)",
             fill: true
@@ -109,7 +113,7 @@ const AnalyticsPage = () => {
         datasets: [
           {
             data: countDataRegion,
-            label: "Количество по категориям в регионе",
+            label: "Количество",
             borderColor: "#ff3333",
             backgroundColor: "rgba(255, 0, 0, 0.5)",
             fill: true
@@ -122,7 +126,7 @@ const AnalyticsPage = () => {
         datasets: [
           {
             data: initiativeCountDataRegion,
-            label: "Количество по категориям в регионе",
+            label: "Количество",
             borderColor: "#ff3333",
             backgroundColor: "rgba(255, 0, 0, 0.5)",
             fill: true
@@ -166,8 +170,8 @@ const AnalyticsPage = () => {
       // Ваши другие настройки графика
       responsive: true,
       maintainAspectRatio: false, // Изменение размера графика без сохранения пропорций
-      width: 20, // Устанавливаем новую ширину графика
-      height: 10, // Устанавливаем новую высоту графика
+      width: 400, // Устанавливаем новую ширину графика
+      height: 300, // Устанавливаем новую высоту графика
     }
   });
   setComplaintChart(newChart);
@@ -207,8 +211,8 @@ const AnalyticsPage = () => {
       // Ваши другие настройки графика
       responsive: true,
       maintainAspectRatio: false, // Изменение размера графика без сохранения пропорций
-      width: 20, // Устанавливаем новую ширину графика
-      height: 10, // Устанавливаем новую высоту графика
+      width: 400, // Устанавливаем новую ширину графика
+      height: 300, // Устанавливаем новую высоту графика
     }
   });
   setInitiativeChart(newInitiativeChart);
@@ -294,10 +298,42 @@ const AnalyticsPage = () => {
       height: 300, // Устанавливаем новую высоту графика
     }
   });
-  setInitiativeChartRegion(newChartRegion);
+  setInitiativeChartRegion(newInitiativeChartRegion);
+  // Обновление данных о количестве заявок в день
+  setComplaintsPerDay(analyticsData.comp_per_day || {});
+  setInitiativesPerDay(analyticsData.init_per_day || {});
 
       }
     }, [analyticsData]);
+
+
+    // Добавляем функцию для преобразования данных о количестве заявок в день в формат, подходящий для графика
+    const combinedChartData = {
+      labels: Object.keys(complaintsPerDay),
+      datasets: [
+          {
+              label: 'Жалобы',
+              data: Object.values(complaintsPerDay),
+              fill: false,
+              borderColor: 'rgb(255, 99, 132)',
+              tension: 0.1
+          },
+          {
+              label: 'Инициативы',
+              data: Object.values(initiativesPerDay),
+              fill: false,
+              borderColor: 'rgb(54, 162, 235)',
+              tension: 0.1
+          }
+      ]
+  };
+
+  const chartOptions = {
+    responsive: true,
+    maintainAspectRatio: false, // Устанавливаем значение false, чтобы можно было задать ширину и высоту графика в пикселях
+    width: 400, // Устанавливаем новую ширину графика
+    height: 300 // Устанавливаем новую высоту графика
+};
 
 
   return (
@@ -335,9 +371,15 @@ const AnalyticsPage = () => {
       {error && <p>Error: {error.message}</p>}
 
       {analyticsData && (
-        
-        <div>
-          <h2>Статистика:</h2>
+        <div className='main-info-container'>
+              <div>
+            <h2>Статистика в городе {cityName}</h2>
+            
+          <div className='chart-container'>
+              <div className='line-chart'>
+                  <Line data={combinedChartData} options={chartOptions} />
+              </div>
+          </div>
           <div className='hist-container'>
             <div className='hist'>
               <canvas id="complaintChartRegion"></canvas>
@@ -383,9 +425,10 @@ const AnalyticsPage = () => {
               </div> 
             </div>
           </div>
-          
-
-        </div>)}
+        </div>
+        </div>
+        
+        )}
     </div>
   );
 

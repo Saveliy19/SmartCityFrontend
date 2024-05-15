@@ -14,6 +14,12 @@
     margin-right: 10px;
 }
 
+.main-info-container {
+  margin-top: 1%;
+  max-height: 75vh; /* максимальная высота */
+  overflow: auto; /* добавляем прокрутку при необходимости */
+}
+
 .most-popular-petitions-container {
   height: 4%;
   margin-top: 1%;
@@ -25,6 +31,9 @@
   justify-content: space-around;
   padding: 20px;
 }
+
+
+
 
 .petitions-container {
   height: 350px; /* максимальная высота */
@@ -39,6 +48,7 @@
 }
 
 .info {
+  width: 800px;
   background-color: #f5f5f5; /* фоновый цвет */
   border: 1px solid #ccc; /* рамка */
   border-radius: 8px; /* скругление углов */
@@ -47,21 +57,45 @@
 }
 
 .hist-container {
-    margin-top: 1%;
-    background-color: #f9f9f9; /* Соответствие цветовой гамме заголовка */
-    border: 2px solid #0080ff;
-    border-radius: 20px;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Добавление теней */
-    display: flex;
-    justify-content: space-around;
-    padding: 20px;
+  margin-top: 1%;
+  background-color: #f9f9f9;
+  border: 2px solid #0080ff;
+  border-radius: 20px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-wrap: wrap; /* Разрешаем перенос строк */
+  justify-content: space-around; /* Располагаем графики между собой */
+  padding: 20px;
 }
 
 .hist {
+  width: 45%; /* Ширина блока для двух графиков в одной строке */
+  height: 400px; /* Увеличиваем высоту графиков */
+  margin-top: 1%;
+  background-color: #f9f9f9;
+  border: 2px solid #0080ff;
+  border-radius: 20px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+
+
+
+.chart-container {
+  width: 98%;
+  height: 400px;
   margin-top: 1%;
   background-color: #f9f9f9; /* Соответствие цветовой гамме заголовка */
   border: 2px solid #0080ff;
   border-radius: 20px;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Добавление теней */
+  display: flex;
+  justify-content: center;
   padding: 20px;
+}
+
+
+.line-chart {
+ width: 100%;
 }
