@@ -14,8 +14,10 @@ const AnalyticsPage = () => {
   const [analyticsData, setAnalyticsData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [myChart, setMyChart] = useState(null);
-  const [myChartRegion, setMyChartRegion] = useState(null);
+  const [complaintChart, setComplaintChart] = useState(null);
+  const [complaintChartRegion, setComplaintChartRegion] = useState(null);
+  const [initiativeChart, setInitiativeChart] = useState(null);
+  const [initiativeChartRegion, setInitiativeChartRegion] = useState(null);
 
   const userToken = localStorage.getItem('token');
 
@@ -46,25 +48,54 @@ const AnalyticsPage = () => {
     // Проверяем, есть ли данные для аналитики
     if (analyticsData) {
       // Удаление предыдущего графика, если он был
-      if (myChart) {
-        myChart.clear();
-        myChart.destroy();
+      if (complaintChart) {
+        complaintChart.clear();
+        complaintChart.destroy();
       }
 
-      if (myChartRegion) {
-        myChartRegion.clear();
-        myChartRegion.destroy();
+      if (complaintChartRegion) {
+        complaintChartRegion.clear();
+        complaintChartRegion.destroy();
       }
+
+      if (initiativeChart) {
+        initiativeChart.clear();
+        initiativeChart.destroy();
+      }
+
+      if (initiativeChartRegion) {
+        initiativeChartRegion.clear();
+        initiativeChartRegion.destroy();
+      }
+
       const categoriesCity = Object.keys(analyticsData.count_per_category_city);
       const countDataCity = Object.values(analyticsData.count_per_category_city);
       const categoriesRegion = Object.keys(analyticsData.count_per_category_region);
       const countDataRegion = Object.values(analyticsData.count_per_category_region);
+
+      const initiativeCategoriesCity = Object.keys(analyticsData.count_per_category_city);
+      const initiativeCountDataCity = Object.values(analyticsData.count_per_category_city);
+      const initiativeCategoriesRegion = Object.keys(analyticsData.count_per_category_region);
+      const initiativeCountDataRegion = Object.values(analyticsData.count_per_category_region);
 
       const updatedChartDataCity = {
         labels: categoriesCity,
         datasets: [
           {
             data: countDataCity,
+            label: "Количество по категориям в городе",
+            borderColor: "#3333ff",
+            backgroundColor: "rgba(0, 0, 255, 0.5)",
+            fill: true
+          }
+        ]
+      };
+
+      const updatedInitiativeChartDataCity = {
+        labels: initiativeCategoriesCity,
+        datasets: [
+          {
+            data: initiativeCountDataCity,
             label: "Количество по категориям в городе",
             borderColor: "#3333ff",
             backgroundColor: "rgba(0, 0, 255, 0.5)",
@@ -86,91 +117,187 @@ const AnalyticsPage = () => {
         ]
       };
 
-      // Создание нового графика
-const ctx = document.getElementById('myChart');
-const newChart = new Chart(ctx, {
-  type: 'bar',
-  data: updatedChartDataCity,
-  options: {
-    // Заголовок графика
-    plugins: {
-      title: {
-        display: true,
-        text: 'Количество жалоб на категорию в городе',
-        font: {
-          size: 10,
-          weight: 'bold'
-        }
-      }
-    },
-    // Подпись оси X
-    scales: {
-      x: {
-        title: {
-          display: true,
-          text: 'Категория'
-        }
-      },
-      // Подпись оси Y
-      y: {
-        title: {
-          display: true,
-          text: 'Количество'
-        }
-      }
-    },
-    // Ваши другие настройки графика
-    responsive: true,
-    maintainAspectRatio: false, // Изменение размера графика без сохранения пропорций
-    width: 20, // Устанавливаем новую ширину графика
-    height: 10, // Устанавливаем новую высоту графика
-  }
-});
-setMyChart(newChart);
+      const updatedInitiativeChartDataRegion = {
+        labels: initiativeCategoriesRegion,
+        datasets: [
+          {
+            data: initiativeCountDataRegion,
+            label: "Количество по категориям в регионе",
+            borderColor: "#ff3333",
+            backgroundColor: "rgba(255, 0, 0, 0.5)",
+            fill: true
+          }
+        ]
+      };
 
-// Создание графика для региона
-const ctxRegion = document.getElementById('myChartRegion');
-const newChartRegion = new Chart(ctxRegion, {
-  type: 'bar',
-  data: updatedChartDataRegion,
-  options: {
-    // Заголовок графика
-    plugins: {
-      title: {
-        display: true,
-        text: 'Количество жалоб на категорию в регионе',
-        font: {
-          size: 10,
-          weight: 'bold'
-        }
-      }
-    },
-    // Подпись оси X
-    scales: {
-      x: {
+      // Создание нового графика
+  const ctx = document.getElementById('complaintChart');
+  const newChart = new Chart(ctx, {
+    type: 'bar',
+    data: updatedChartDataCity,
+    options: {
+      // Заголовок графика
+      plugins: {
         title: {
           display: true,
-          text: 'Категория'
+          text: 'Количество жалоб на категорию в городе',
+          font: {
+            size: 10,
+            weight: 'bold'
+          }
         }
       },
-      // Подпись оси Y
-      y: {
+      // Подпись оси X
+      scales: {
+        x: {
+          title: {
+            display: true,
+            text: 'Категория'
+          }
+        },
+        // Подпись оси Y
+        y: {
+          title: {
+            display: true,
+            text: 'Количество'
+          }
+        }
+      },
+      // Ваши другие настройки графика
+      responsive: true,
+      maintainAspectRatio: false, // Изменение размера графика без сохранения пропорций
+      width: 20, // Устанавливаем новую ширину графика
+      height: 10, // Устанавливаем новую высоту графика
+    }
+  });
+  setComplaintChart(newChart);
+
+  const ctxInitiative = document.getElementById('initiativeChart');
+  const newInitiativeChart = new Chart(ctxInitiative, {
+    type: 'bar',
+    data: updatedInitiativeChartDataCity,
+    options: {
+      // Заголовок графика
+      plugins: {
         title: {
           display: true,
-          text: 'Количество'
+          text: 'Количество инициатив на категорию в городе',
+          font: {
+            size: 10,
+            weight: 'bold'
+          }
         }
-      }
-    },
-    // Ваши другие настройки графика
-    responsive: true,
-    maintainAspectRatio: false, // Изменение размера графика без сохранения пропорций
-    width: 400, // Устанавливаем новую ширину графика
-    height: 300, // Устанавливаем новую высоту графика
-  }
-});
-setMyChartRegion(newChartRegion);
+      },
+      // Подпись оси X
+      scales: {
+        x: {
+          title: {
+            display: true,
+            text: 'Категория'
+          }
+        },
+        // Подпись оси Y
+        y: {
+          title: {
+            display: true,
+            text: 'Количество'
+          }
+        }
+      },
+      // Ваши другие настройки графика
+      responsive: true,
+      maintainAspectRatio: false, // Изменение размера графика без сохранения пропорций
+      width: 20, // Устанавливаем новую ширину графика
+      height: 10, // Устанавливаем новую высоту графика
     }
-  }, [analyticsData]);
+  });
+  setInitiativeChart(newInitiativeChart);
+
+  // Создание графика для региона
+  const ctxRegion = document.getElementById('complaintChartRegion');
+  const newChartRegion = new Chart(ctxRegion, {
+    type: 'bar',
+    data: updatedChartDataRegion,
+    options: {
+      // Заголовок графика
+      plugins: {
+        title: {
+          display: true,
+          text: 'Количество жалоб на категорию в регионе',
+          font: {
+            size: 10,
+            weight: 'bold'
+          }
+        }
+      },
+      // Подпись оси X
+      scales: {
+        x: {
+          title: {
+            display: true,
+            text: 'Категория'
+          }
+        },
+        // Подпись оси Y
+        y: {
+          title: {
+            display: true,
+            text: 'Количество'
+          }
+        }
+      },
+      // Ваши другие настройки графика
+      responsive: true,
+      maintainAspectRatio: false, // Изменение размера графика без сохранения пропорций
+      width: 400, // Устанавливаем новую ширину графика
+      height: 300, // Устанавливаем новую высоту графика
+    }
+  });
+  setComplaintChartRegion(newChartRegion);
+
+  const ctxInitiativeRegion = document.getElementById('initiativeChartRegion');
+  const newInitiativeChartRegion = new Chart(ctxInitiativeRegion, {
+    type: 'bar',
+    data: updatedInitiativeChartDataRegion,
+    options: {
+      // Заголовок графика
+      plugins: {
+        title: {
+          display: true,
+          text: 'Количество инициатив на категорию в регионе',
+          font: {
+            size: 10,
+            weight: 'bold'
+          }
+        }
+      },
+      // Подпись оси X
+      scales: {
+        x: {
+          title: {
+            display: true,
+            text: 'Категория'
+          }
+        },
+        // Подпись оси Y
+        y: {
+          title: {
+            display: true,
+            text: 'Количество'
+          }
+        }
+      },
+      // Ваши другие настройки графика
+      responsive: true,
+      maintainAspectRatio: false, // Изменение размера графика без сохранения пропорций
+      width: 400, // Устанавливаем новую ширину графика
+      height: 300, // Устанавливаем новую высоту графика
+    }
+  });
+  setInitiativeChartRegion(newChartRegion);
+
+      }
+    }, [analyticsData]);
 
 
   return (
@@ -213,10 +340,16 @@ setMyChartRegion(newChartRegion);
           <h2>Статистика:</h2>
           <div className='hist-container'>
             <div className='hist'>
-              <canvas id="myChart"></canvas>
+              <canvas id="complaintChartRegion"></canvas>
             </div>
             <div className='hist'>
-              <canvas id="myChartRegion"></canvas>
+              <canvas id="complaintChart"></canvas>
+            </div>
+            <div className='hist'>
+              <canvas id="initiativeChart"></canvas>
+            </div>
+            <div className='hist'>
+              <canvas id="initiativeChartRegion"></canvas>
             </div>
           </div>
           
@@ -228,6 +361,9 @@ setMyChartRegion(newChartRegion);
               {analyticsData.most_popular_city_complaints.map(complaint => (
                 <div className='info' key={complaint.id}>
                   <p><Link to={`/petition/${complaint.id}`}>ID: {complaint.id} </Link> - {complaint.header}</p>
+                  <p>Категория: <strong>{complaint.category}</strong></p>
+                  <p>Дата подачи: <strong>{complaint.submission_time}</strong></p>
+                  <p>Количество подписей: <strong>{complaint.like_count}</strong></p>
                 </div>
                 ))}
               </div>
@@ -239,6 +375,9 @@ setMyChartRegion(newChartRegion);
                 {analyticsData.most_popular_city_initiatives.map(initiative => (
                   <div className='info' key={initiative.id}>
                     <p><Link to={`/petition/${initiative.id}`}>ID: {initiative.id}</Link> - {initiative.header}</p>
+                    <p>Категория: <strong>{initiative.category}</strong></p>
+                  <p>Дата подачи: <strong>{initiative.submission_time}</strong></p>
+                  <p>Количество подписей: <strong>{initiative.like_count}</strong></p>
                   </div>
                 ))}
               </div> 
