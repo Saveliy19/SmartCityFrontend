@@ -388,10 +388,10 @@ const AnalyticsPage = () => {
               <canvas id="complaintChart"></canvas>
             </div>
             <div className='hist'>
-              <canvas id="initiativeChart"></canvas>
+              <canvas id="initiativeChartRegion"></canvas>
             </div>
             <div className='hist'>
-              <canvas id="initiativeChartRegion"></canvas>
+              <canvas id="initiativeChart"></canvas>
             </div>
           </div>
           

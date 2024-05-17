@@ -5,8 +5,6 @@ import Header from './Header';
 import userIcon from './user.png';
 import leftArrow from './left.png';
 import rightArrow from './right.png';
-import backArrow from './back.png';
-import plusIcon from './plus.png'
 import { Link } from 'react-router-dom';
 import './ProfilePage.css';
 
@@ -73,20 +71,20 @@ const ProfilePage = () => {
         )}
       </div>
       <div className="button-container">
-        <img src={backArrow} alt="Previous"  onClick={handleGoBack} />
-        <img src={plusIcon} alt="Add petition"  onClick={handleCreatePetition} />
+        <button className='profile-button' onClick={handleGoBack}>Назад</button>
+        <button className='red-button' onClick={handleCreatePetition}>Создать петицию</button>
       </div>
       {userData && userData.petitions && (
-        <div className="petitions-container">
+        <div>
           <h2>Вот ваши заявки</h2>
           <div className="petitions-list-container">
             <ul className="petitions-list" style={{ transform: `translateX(-${currentPage * 100}%)` }}>
-              {userData.petitions.map((petition) => (
+              {userData.petitions.sort((a, b) => b.id - a.id).map((petition) => (
                 <p key={petition.id} className="petition-item">
                   <Link to={`/petition/${petition.id}`}><p><strong>Номер заявки:</strong> {petition.id}</p></Link>
                   <p><strong>Заголовок:</strong> {petition.header}</p>
                   <p style={{ color: petition.status === 'Решено' || petition.status === 'Одобрено' ? 'green' :
-                   petition.status === 'В работе' || petition.status === 'На рассмотрении' ? 'yellow' :
+                   petition.status === 'В работе' || petition.status === 'На рассмотрении' ? 'orange' :
                   petition.status === 'Отклонено' ? 'red' : 'blue', 
                   textTransform: 'uppercase' }}>
                   {petition.status}</p>

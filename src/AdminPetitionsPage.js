@@ -43,9 +43,9 @@ function AdminPetitionsPage() {
   
 
   if (sortBy === 'dateDesc') {
-    filteredPetitions.sort((a, b) => new Date(b.date) - new Date(a.date)); // Сначала новые
+    filteredPetitions.sort((a, b) => b.id - a.id); // Сначала новые
   } else if (sortBy === 'dateAsc') {
-    filteredPetitions.sort((a, b) => new Date(a.date) - new Date(b.date)); // Сначала старые
+    filteredPetitions.sort((a, b) => a.id - b.id); // Сначала старые
   } else if (sortBy === 'likes') {
     filteredPetitions.sort((a, b) => b.likes - a.likes); // Сортировка по количеству лайков
   }

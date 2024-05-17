@@ -43,7 +43,8 @@ function Header() {
       <Link to="/">
         <img src={logo} alt="Логотип Умного Города" className="logo" />
       </Link>
-        <h1>Умный Город</h1>
+      <div className='app-name'><h1>Умный Город</h1></div>
+        
       <div className="header-right">
         {isLoggedIn ? (
           <>

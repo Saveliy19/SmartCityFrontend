@@ -7,8 +7,14 @@
   box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1); /* Добавление тени */
 }
 
-.user-info {
-  text-align: center;
+.profile-page {
+  margin-top: 2%;
+  background-color: #f9f9f9;
+  border: 2px solid #0080ff;
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center; /* Центрирование текста */
 }
 
 .user-icon {
@@ -23,24 +29,26 @@
 }
 
 
-.petitions-container {
-  background-color: white; /* Белый цвет фона */
-  color: #0056b3; /* Черный цвет текста */
-  margin-top: 20px;
-  box-shadow: 0px 0px 20px rgba(0, 0, 255, 0.1); /* Добавление тени с синим оттенком */
-}
 
 .petitions-list-container {
   overflow: hidden;
+  margin-top: 2%;
+  background-color: #f9f9f9;
+  border: 2px solid #0080ff;
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center; /* Центрирование текста */
 }
 
 .petitions-list {
   display: flex;
-  padding: 0;
+  justify-content: space-around;
   transition: transform 0.3s ease;
 }
 
 .petition-item {
+  width: 25%;
   border: 3px solid #0056b3; /* Синяя рамка толщиной 3px */
   background-color: #f0f0f0; /* Светло-серый цвет фона */
   border-radius: 20px;
@@ -67,11 +75,6 @@
   margin-top: 1%;
 }
 
-.button-container img {
-  width: 30px; /* Размер иконок кнопок */
-  height: 30px;
-  cursor: pointer;
-  border: 3px solid #0056b3; /* Синяя рамка толщиной 3px */
-  border-radius: 5px; /* Скругляем углы рамки */
-  box-shadow: 0px 0px 10px rgba(0, 0, 255, 0.2); /* Добавление тени с синим оттенком */
+.button-back {
+  color: #0056b3;
 }

@@ -44,7 +44,15 @@
   line-height: 1.5; /* Увеличьте значение, чтобы увеличить межстрочный интервал */
 }
 
-
+.home-page-container {
+  margin-top: 1%;
+  height: 80vh;
+  background-color: #f9f9f9;
+  padding: 20px 10px;
+  border: 2px solid #0080ff; /* Темный контур снизу */
+  border-radius: 20px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
 
 
 body {

@@ -44,9 +44,9 @@ function ComplaintsPage() {
   
 
   if (sortByDate === "Сначала новые") {
-    filteredPetitions.sort((a, b) => new Date(b.date) - new Date(a.date));
+    filteredPetitions.sort((a, b) => b.id - a.id);
   } else if (sortByDate === "Сначала старые") {
-    filteredPetitions.sort((a, b) => new Date(a.date) - new Date(b.date));
+    filteredPetitions.sort((a, b) => a.id - b.id);
   }
   else if (sortByDate === "Сначала популярные") {
     filteredPetitions.sort((a, b) => b.likes - a.likes);

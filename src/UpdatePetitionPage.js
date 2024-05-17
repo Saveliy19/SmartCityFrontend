@@ -32,7 +32,7 @@ function PetitionStatusForm({ onUpdateStatus, onCancel }) {
       id: petitionId,
       user_token: token,
       status: status,
-      comment: comment
+      comment: ('Новый статус: ' +status + '. Комментарий администратора: ' + comment)
     };
 
     // Отправляем данные на сервер
