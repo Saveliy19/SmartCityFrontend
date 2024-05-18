@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 
 const AdminDashboard = () => {
   const [adminData, setAdminData] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -16,7 +17,17 @@ const AdminDashboard = () => {
           setAdminData(response.data);
         })
         .catch(error => {
-          console.error('Error fetching admin data:', error);
+          if (error.response) {
+            if (error.response.status === 401) {
+              setErrorMessage('Возможно, Ваш сеанс закончился! Пожалуйста, перезайдите в систему!');
+            } else if (error.response.status === 500) {
+              setErrorMessage('Личный кабинет временно недоступен');
+            } else {
+              setErrorMessage('Произошла ошибка. Пожалуйста, попробуйте позже');
+            }
+          } else {
+            setErrorMessage('Произошла ошибка. Пожалуйста, попробуйте позже');
+          }
         });
     }
   }, []);
@@ -25,7 +36,11 @@ const AdminDashboard = () => {
     <div className="admin-container">
       <Header />
       <h1 className="admin-title">Панель администратора</h1>
-      {adminData ? (
+      {errorMessage ? (
+        <div className="error-message">
+          <p>{errorMessage}</p>
+        </div>
+      ) : adminData ? (
         <div className="admin-data">
           <img src={adminIcon} alt="Admin Icon" className="admin-icon" /> {/* Иконка администратора */}
           <p>ID: {adminData.id}</p>
@@ -36,7 +51,6 @@ const AdminDashboard = () => {
           <p><strong>Регион</strong> {adminData.region}</p>
           <p><strong>Город</strong> {adminData.city}</p>
           
-
           {/* Кнопки для перехода на другие страницы */}
           <div className="admin-buttons">
             <Link to={`/admin-petitions/${adminData.region}/${adminData.city}`}>К петициям</Link>

@@ -25,7 +25,7 @@ const ProfilePage = () => {
           if (error.response && error.response.status === 401) {
             setError('Ошибка: не авторизован! Пожалуйста, нажмите кнопку "Выйти" и перезайдите в систему.');
           } else {
-            console.error('Error fetching user data:', error);
+            setError('Произошла ошибка при загрузке данных пользователя. Пожалуйста, попробуйте позже.');
           }
         });
     }
@@ -70,17 +70,18 @@ const ProfilePage = () => {
           <p>Loading...</p>
         )}
       </div>
-      <div className="button-container">
-        <button className='profile-button' onClick={handleGoBack}>Назад</button>
-        <button className='red-button' onClick={handleCreatePetition}>Создать петицию</button>
-      </div>
+      
       {userData && userData.petitions && (
         <div>
+          <div className="button-container">
+            <button className='profile-button' onClick={handleGoBack}>Назад</button>
+            <button className='red-button' onClick={handleCreatePetition}>Создать петицию</button>
+          </div>
           <h2>Вот ваши заявки</h2>
           <div className="petitions-list-container">
             <ul className="petitions-list" style={{ transform: `translateX(-${currentPage * 100}%)` }}>
               {userData.petitions.sort((a, b) => b.id - a.id).map((petition) => (
-                <p key={petition.id} className="petition-item">
+                <li key={petition.id} className="petition-item">
                   <Link to={`/petition/${petition.id}`}><p><strong>Номер заявки:</strong> {petition.id}</p></Link>
                   <p><strong>Заголовок:</strong> {petition.header}</p>
                   <p style={{ color: petition.status === 'Решено' || petition.status === 'Одобрено' ? 'green' :
@@ -90,7 +91,7 @@ const ProfilePage = () => {
                   {petition.status}</p>
                   <p><strong>Адрес:</strong> {petition.address}</p>
                   <p><strong>Подписей:</strong> {petition.likes}</p>
-                </p>
+                </li>
               ))}
             </ul>
           </div>
