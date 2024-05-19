@@ -2,13 +2,18 @@ import './CityPage.css';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import Header from './Header'; // Импорт компонента Header
-import { useNavigate } from 'react-router-dom'; // Импорт useNavigate из react-router-dom
+import Header from './Header';
+import { useNavigate } from 'react-router-dom';
+import { Pie } from 'react-chartjs-2';
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+
+ChartJS.register(ArcElement, Tooltip, Legend);
 
 function CityPage({ cityName }) {
   const [cityData, setCityData] = useState(null);
   const [regionData, setRegionData] = useState(null);
-  const navigate = useNavigate(); // Использование useNavigate для навигации
+  const [errorMessage, setErrorMessage] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -27,7 +32,12 @@ function CityPage({ cityName }) {
         });
         setRegionData(regionResponse.data[0]);
       } catch (error) {
-        console.error('Произошла ошибка при загрузке данных:', error);
+        if (error.response && error.response.status === 500) {
+          setErrorMessage('Сервис жалоб и инициатив временно недоступен');
+        } else {
+          console.error('Произошла ошибка при загрузке данных:', error);
+          setErrorMessage('Произошла ошибка при загрузке данных');
+        }
       }
     };
 
@@ -35,7 +45,61 @@ function CityPage({ cityName }) {
   }, [cityName]);
 
   const handleGoBack = () => {
-    navigate(-1); // Функция, чтобы вернуться на предыдущую страницу
+    navigate(-1);
+  };
+
+  const renderPieChart = (dataObject, type) => {
+    if (!dataObject || Object.keys(dataObject).length === 0) {
+      return <p>Нет данных для отображения</p>;
+    }
+  
+    const statusColors = {
+      'На модерации': '#47e3ff', // Синий
+      'На рассмотрении': '#ffe657', // Оранжевый
+      'Отклонено': '#dc3545', // Красный
+      'В работе': '#ffe657', // Оранжевый
+      'Решено': '#65ff57', // Зеленый
+      'Одобрено': '#65ff57' // Зеленый
+    };
+  
+    const labels = Object.keys(dataObject);
+    const dataValues = Object.values(dataObject);
+    const backgroundColors = labels.map(label => statusColors[label]);
+  
+    const data = {
+      labels: labels,
+      datasets: [
+        {
+          data: dataValues,
+          backgroundColor: backgroundColors,
+        },
+      ],
+    };
+  
+    const options = {
+      maintainAspectRatio: false,
+      responsive: true,
+      plugins: {
+        tooltip: {
+          callbacks: {
+            label: function (context) {
+              const label = context.label || '';
+              const value = context.raw || 0;
+              return `${label}: ${value}`;
+            },
+          },
+        },
+        legend: {
+          display: false,
+        },
+        title: {
+          display: true,
+          text: type,
+        }
+      },
+    };
+  
+    return <div className="pie-container"><Pie data={data} options={options} /></div>;
   };
 
   return (
@@ -43,55 +107,58 @@ function CityPage({ cityName }) {
       <Header />
       <div className='city-page-content'>
         <h1>{cityName}</h1>
+        {errorMessage && (
+          <div className="error-message">
+            <p>{errorMessage}</p>
+          </div>
+        )}
         <div className="data-panel-container">
-                  <div className="data-column">
-                    {cityData ? (
-                      <div>
-                        <p style={{ fontWeight: 'bold' }}>Результаты работы сервиса в городе</p>
-                        <p>Петиций: {cityData.petitions_count}</p>
-                        <p>Инициатив: {cityData.initiatives_count}</p>
-                        <p>Самая популярная категория жалоб: {cityData.most_popular_petition}</p>
-                        <p>Самая популярная категория инициатив: {cityData.most_popular_initiative}</p>
-                        <p>Решенных проблем: {cityData.solved_percent}%</p>
-                        <p><progress value={cityData.solved_percent} max="100"></progress></p>
-                        <p>Принятых инициатив: {cityData.accepted_percent}%</p>
-                        <p><progress value={cityData.accepted_percent} max="100"></progress></p>
-                      </div>
-                    ) : (
-                      <p>Загрузка данных...</p>
-                    )}
-                  </div>
-                  <div className="data-column">
-                    {regionData ? (
-                      <div>
-                        <p style={{ fontWeight: 'bold' }}>Результаты работы сервиса в регионе</p>
-                        <p>Петиций: {regionData.petitions_count}</p>
-                        <p>Инициатив: {regionData.initiatives_count}</p>
-                        <p>Самая популярная категория жалоб: {regionData.most_popular_petition}</p>
-                        <p>Самая популярная категория инициатив: {regionData.most_popular_initiative}</p>
-                        <p>Решенных проблем: {regionData.solved_percent}%</p>
-                        <p><progress value={regionData.solved_percent} max="100"></progress></p>
-                        <p>Принятых инициатив: {regionData.accepted_percent}%</p>
-                        <p><progress value={regionData.accepted_percent} max="100"></progress></p>
-                      </div>
-                    ) : (
-                      <p>Загрузка данных...</p>
-                    )}
-                  </div>
-            </div>
-            <div className="links">
-              <div className="petitions">
-                <Link to={`/petitions/${cityName}`}>К жалобам</Link>
+          <div className="data-column">
+            {cityData ? (
+              <div>
+                <p style={{ fontWeight: 'bold' }}>Результаты работы сервиса в городе за месяц</p>
+                <p>Петиций: {cityData.petitions_count}</p>
+                <p>Инициатив: {cityData.initiatives_count}</p>
+                <p>Самая популярная категория жалоб: {cityData.most_popular_petition}</p>
+                <p>Самая популярная категория инициатив: {cityData.most_popular_initiative}</p>
+                <div className='pies-container'>
+                  {renderPieChart(cityData.complaints_per_status, 'Жалобы')}
+                  {renderPieChart(cityData.initiatives_per_status, 'Инициативы')}
+                </div>
               </div>
-              <button className='button-back' onClick={handleGoBack}>Назад</button> {/* Кнопка "Назад" */}
-              <div className="complaints">
-                <Link to={`/initiatives/${cityName}`}>К инициативам</Link>
+            ) : (
+              <p>Загрузка данных...</p>
+            )}
+          </div>
+          <div className="data-column">
+            {regionData ? (
+              <div>
+                <p style={{ fontWeight: 'bold' }}>Результаты работы сервиса в регионе за месяц</p>
+                <p>Петиций: {regionData.petitions_count}</p>
+                <p>Инициатив: {regionData.initiatives_count}</p>
+                <p>Самая популярная категория жалоб: {regionData.most_popular_petition}</p>
+                <p>Самая популярная категория инициатив: {regionData.most_popular_initiative}</p>
+                <div className='pies-container'>
+                  {renderPieChart(regionData.complaints_per_status, 'Жалобы')}
+                  {renderPieChart(regionData.initiatives_per_status, 'Инициативы')}
+                </div>
               </div>
-              
-            </div>
+            ) : (
+              <p>Загрузка данных...</p>
+            )}
+          </div>
+        </div>
+        <div className="links">
+          <div className="petitions">
+            <Link to={`/petitions/${cityName}`}>К жалобам</Link>
+          </div>
+          <button className='button-back' onClick={handleGoBack}>Назад</button>
+          <div className="complaints">
+            <Link to={`/initiatives/${cityName}`}>К инициативам</Link>
+          </div>
+        </div>
       </div>
-          
-      </div>
+    </div>
   );
 }
 

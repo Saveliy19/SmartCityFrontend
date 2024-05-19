@@ -23,7 +23,9 @@ function PetitionMakingPage() {
       setErrorMessage('Ошибка: Токен не найден');
       return;
     }
-    const dataToSend = new FormData(); // Создаем объект FormData для отправки файлов
+
+
+    const dataToSend = new FormData();
     dataToSend.append('header', formData.header);
     dataToSend.append('is_initiative', formData.is_initiative);
     dataToSend.append('category', formData.category);
@@ -31,29 +33,40 @@ function PetitionMakingPage() {
     dataToSend.append('address', formData.address);
     dataToSend.append('city_name', formData.city_name);
     formData.photos.forEach(photo => {
-      dataToSend.append('photos', photo); // Добавляем каждую фотографию в FormData
+      dataToSend.append('photos', photo);
     });
     dataToSend.append('token', token);
     dataToSend.append('region', 'Республика Коми');
     
     const url = 'http://127.0.0.1:8000/make_petition';
     axios.post(url, dataToSend)
-      .then(response => {
-        setSuccessMessage('Заявка успешно отправлена');
-        setFormData({
-          header: '',
-          is_initiative: false,
-          category: '',
-          description: '',
-          address: '',
-          city_name: '',
-          photos: [] // Очищаем список фотографий после отправки
-        });
-      })
-      .catch(error => {
-        setErrorMessage('Ошибка при отправке данных на сервер');
-        console.error('Error:', error);
-      });
+    .then(response => {
+      setErrorMessage(null);
+      setSuccessMessage('Заявка успешно отправлена');
+      setFormData(prevState => ({
+        ...prevState,
+        header: '',
+        description: '',
+        address: '',
+        photos: []
+      }));
+    })
+    .catch(error => {
+      if (error.response) {
+        if (error.response.status === 401) {
+          setErrorMessage('Ошибка: Пользователь не авторизован. Войдите в систему.');
+        } else if (error.response.status === 500) {
+          setErrorMessage('Ошибка: Сервис временно недоступен. Попробуйте позже.');
+        } else {
+          setErrorMessage('Сервис временно недоступен, попробуйте позже!');
+        }
+      } else if (error.request) {
+        setErrorMessage('Сервис временно недоступен, попробуйте позже!');
+      } else {
+        setErrorMessage('Сервис временно недоступен, попробуйте позже!');
+      }
+      setSuccessMessage(null);
+    });
   };
 
   const handleChange = (e) => {
@@ -65,7 +78,7 @@ function PetitionMakingPage() {
   };
 
   const handleFileChange = (e) => {
-    const files = Array.from(e.target.files); // Преобразуем объект FileList в массив
+    const files = Array.from(e.target.files);
     setFormData(prevState => ({
       ...prevState,
       photos: files
@@ -79,8 +92,9 @@ function PetitionMakingPage() {
         <div className="petition-header">
           <h1>Заполните данные для создания заявки</h1>
         </div>
-        {errorMessage && <p className="error-message">{errorMessage}</p>}
-        {successMessage && <p className="success-message">{successMessage}</p>}
+          {errorMessage && <p className="error-message">{errorMessage}</p>}
+          {successMessage && <p className="success">{successMessage}</p>}
+        
         <form onSubmit={handleSubmit} className="petition-form">
           <label>
             Заголовок:
@@ -130,8 +144,8 @@ function PetitionMakingPage() {
           </label>
 
           <label>
-            Фотографии (до 4):
-            <input type="file" name="photos" onChange={handleFileChange} accept="image/*" multiple />
+            Фотографии заявки:
+            <input type="file" name="photos" onChange={handleFileChange} accept="image/*" multiple required />
           </label>
 
           <div className="button-group">

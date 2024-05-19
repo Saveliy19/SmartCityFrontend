@@ -9,8 +9,8 @@
   flex-basis: calc(25% - 20px); /* Четыре элемента в строке */
   text-align: center;
   margin-bottom: 20px; /* Расстояние между гербами */
-  border: 2px solid #00274d; /* Синяя рамка толщиной 2px */
-  background-color: #63adfc; /* Цвет фона */
+  border: 2px solid #0080ff; /* Синяя рамка толщиной 2px */
+  background-color: #f9f9f9; /* Цвет фона */
   border-radius: 5px; /* Скругляем углы рамки */
   padding: 10px; /* Добавляем отступ вокруг содержимого */
 }
@@ -23,7 +23,7 @@
 
 .city-item a {
   font-size: 20px; /* Размер текста ссылок */
-  color: white; /* Цвет текста ссылок */
+  color: #0080ff; /* Цвет текста ссылок */
   display: block; /* Превращение ссылок в блочные элементы */
   text-decoration: none; /* Убираем подчеркивание ссылок */
 }

@@ -44,11 +44,10 @@
 .petitions-list {
   display: flex;
   justify-content: space-around;
-  transition: transform 0.3s ease;
 }
 
 .petition-item {
-  width: 25%;
+  min-width: 20%;
   border: 3px solid #0056b3; /* Синяя рамка толщиной 3px */
   background-color: #f0f0f0; /* Светло-серый цвет фона */
   border-radius: 20px;
@@ -77,4 +76,10 @@
 
 .button-back {
   color: #0056b3;
+}
+
+.search-container input{
+  padding: 5px 15px;
+  font-size: 12px;
+  border-radius: 5px;
 }

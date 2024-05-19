@@ -12,6 +12,8 @@ const ProfilePage = () => {
   const [userData, setUserData] = useState(null);
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(0);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filteredPetitions, setFilteredPetitions] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -31,6 +33,19 @@ const ProfilePage = () => {
     }
   }, []);
 
+  useEffect(() => {
+    if (!searchQuery.trim()) {
+      setFilteredPetitions(userData ? userData.petitions : []);
+    } else {
+      const lowerCaseQuery = searchQuery.toLowerCase();
+      const filtered = (userData ? userData.petitions : []).filter(petition =>
+        petition.id.toString().includes(lowerCaseQuery) ||
+        petition.header.toLowerCase().includes(lowerCaseQuery)
+      );
+      setFilteredPetitions(filtered);
+    }
+  }, [searchQuery, userData]);
+
   const handleGoBack = () => {
     navigate(-1);
   };
@@ -47,13 +62,35 @@ const ProfilePage = () => {
     }
   };
 
+  const getStatusColor = (status) => {
+    switch (status) {
+      case 'Решено':
+      case 'Одобрено':
+        return 'green';
+      case 'В работе':
+      case 'На рассмотрении':
+        return 'orange';
+      case 'Отклонено':
+        return 'red';
+      default:
+        return 'blue';
+    }
+  };
+
+  if (!userData) {
+    return <p>Loading...</p>;
+  }
+
+  const startIndex = currentPage * 4;
+  const endIndex = startIndex + 4;
+
   return (
     <div>
       <Header />
       <div className="profile-page">
         {error ? (
           <p className="error">{error}</p>
-        ) : userData ? (
+        ) : (
           <div className="user-info-container">
             <div className="user-info">
               <div className="user-icon">
@@ -66,39 +103,46 @@ const ProfilePage = () => {
               <p><strong>Рейтинг:</strong> {userData.rating}</p>
             </div>
           </div>
-        ) : (
-          <p>Loading...</p>
         )}
       </div>
-      
-      {userData && userData.petitions && (
+
+      {userData.petitions && (
         <div>
           <div className="button-container">
             <button className='profile-button' onClick={handleGoBack}>Назад</button>
             <button className='red-button' onClick={handleCreatePetition}>Создать петицию</button>
           </div>
           <h2>Вот ваши заявки</h2>
+          
           <div className="petitions-list-container">
-            <ul className="petitions-list" style={{ transform: `translateX(-${currentPage * 100}%)` }}>
-              {userData.petitions.sort((a, b) => b.id - a.id).map((petition) => (
-                <li key={petition.id} className="petition-item">
-                  <Link to={`/petition/${petition.id}`}><p><strong>Номер заявки:</strong> {petition.id}</p></Link>
+            <ul className="petitions-list">
+              {filteredPetitions.slice(startIndex, endIndex).map((petition) => (
+                <div key={petition.id} className="petition-item">
+                  <p><strong>Номер заявки:</strong> <Link to={`/petition/${petition.id}`}>{petition.id}</Link></p>
                   <p><strong>Заголовок:</strong> {petition.header}</p>
-                  <p style={{ color: petition.status === 'Решено' || petition.status === 'Одобрено' ? 'green' :
-                   petition.status === 'В работе' || petition.status === 'На рассмотрении' ? 'orange' :
-                  petition.status === 'Отклонено' ? 'red' : 'blue', 
-                  textTransform: 'uppercase' }}>
-                  {petition.status}</p>
+                  <p style={{ color: getStatusColor(petition.status) }}>{petition.status}</p>
                   <p><strong>Адрес:</strong> {petition.address}</p>
                   <p><strong>Подписей:</strong> {petition.likes}</p>
-                </li>
+                </div>
               ))}
             </ul>
           </div>
           {userData.petitions.length > 3 && (
             <div className="pagination-buttons">
-              <img src={leftArrow} alt="Previous" onClick={() => handlePageChange('prev')} disabled={currentPage === 0} />
-              <img src={rightArrow} alt="Next" onClick={() => handlePageChange('next')} disabled={currentPage === Math.ceil(userData.petitions.length / 3) - 1} />
+              <button onClick={() => handlePageChange('prev')} disabled={currentPage === 0}>
+                <img src={leftArrow} alt="Previous" />
+              </button>
+              <div className="search-container">
+                <input
+                  type="text"
+                  placeholder="Поиск по ID или заголовку"
+                  value={searchQuery}
+                  onChange={e => setSearchQuery(e.target.value)}
+                />
+              </div>
+              <button onClick={() => handlePageChange('next')} disabled={endIndex >= userData.petitions.length}>
+                <img src={rightArrow} alt="Next" />
+              </button>
             </div>
           )}
         </div>

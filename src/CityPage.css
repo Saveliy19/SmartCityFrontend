@@ -19,6 +19,8 @@
 }
 
 
+
+
 .data-column {
   margin-top: 10px;
   margin-right: 1%;
@@ -36,6 +38,18 @@
 .data-column p {
   font-size: large;
   margin: 20px 0;
+}
+
+.pies-container {
+  height: 300px;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+}
+
+.pie-container {
+  width: 500px;
+  height: auto;
 }
 
 .links {

@@ -13,9 +13,7 @@ import PetitionMakingPage from './PetitionMakingPage';
 import AdminPetitionsPage from './AdminPetitionsPage';
 import UpdatePetitionPage from './UpdatePetitionPage';
 import AdminStatisticsPage from './AdminStatisticsPage';
-// import UkhtaPage from './UkhtaPage';
-// import PechoraPage from './PechoraPage';
-// import NotFoundPage from './NotFoundPage';
+import NotFoundPage from './NotFoundPage';
 
 function App() {
   return (
@@ -36,7 +34,7 @@ function App() {
         <Route path="/update-petition/:petitionId" element={<UpdatePetitionPage />} />
         {/* <Route path="/ukhta" element={<UkhtaPage />} /> */}
         {/* <Route path="/pechora" element={<PechoraPage />} /> */}
-        {/* <Route path="*" element={<NotFoundPage />} /> */}
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </Router>
   );
