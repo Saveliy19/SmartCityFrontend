@@ -60,7 +60,7 @@ function PetitionPage() {
 
   const handleLike = async () => {
     if (!localStorage.getItem('token')) {
-      alert('Please login to like the petition.');
+      alert('Нужно авторизоваться в системе, чтобы поставить подпись под заявкой!');
       return;
     }
     else {
@@ -97,7 +97,8 @@ function PetitionPage() {
       )}
       <h2>Информация о петиции:</h2>
       <div className="petition-content">
-        <p><strong>ID:</strong> {petition.id} {petition.header}</p>
+        <p><strong>{petition.header}</strong></p>
+        <p><strong>ID:</strong> {petition.id}</p>
         <p><strong>Email заявителя:</strong> {petition.petitioner_email}</p>
         <p><strong>Адрес: </strong> {petition.region}, {petition.city_name}, {petition.address}</p>
         <p><span className={petition.is_initiative ? "text-green" : "text-red"}>

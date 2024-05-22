@@ -1,25 +1,29 @@
 /* CityPage.css */
 
+.city-page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
 .city-page-content {
-  margin-top: 10px;
-  height: 40%;
+  flex: 1;
   overflow-y: auto;
+  margin-top: 10px;
   text-align: center;
   background-color: #f9f9f9; /* Соответствие цветовой гамме заголовка */
   border: 2px solid #0080ff;
   border-radius: 20px;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Добавление теней */
-  padding: 20px;
+  padding: 10px;
 }
 
 .data-panel-container {
   display: flex;
   justify-content: space-between;
   margin-bottom: 20px;
+  overflow-y: auto;
 }
-
-
-
 
 .data-column {
   margin-top: 10px;
@@ -37,7 +41,7 @@
 
 .data-column p {
   font-size: large;
-  margin: 20px 0;
+  margin: 
 }
 
 .pies-container {
@@ -51,6 +55,12 @@
   width: 500px;
   height: auto;
 }
+
+.bar-container {
+  width: 98%;
+  height: auto;
+}
+
 
 .links {
   margin-top: 5%;

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './PetitionMakingPage.css'; 
 import Header from './Header'; 
@@ -10,11 +10,57 @@ function PetitionMakingPage() {
     category: 'ЖКХ',
     description: '',
     address: '',
-    city_name: 'Емва',
-    photos: [] // Добавлено новое состояние для фотографий
+    region: '',
+    city_name: '',
+    photos: []
   });
+  const [regions, setRegions] = useState({});
+  const [cities, setCities] = useState([]);
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
+
+  useEffect(() => {
+    const fetchCities = async () => {
+      try {
+        const response = await fetch('http://127.0.0.1:8000/get_cities');
+        const data = await response.json();
+        if (response.ok) {
+          setRegions(data[0]);
+        } else {
+          setErrorMessage('Не удалось загрузить регионы и города');
+        }
+      } catch (error) {
+        setErrorMessage('Ошибка сети. Пожалуйста, попробуйте позже.');
+      }
+    };
+    fetchCities();
+  }, []);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prevState => ({
+      ...prevState,
+      [name]: value
+    }));
+  };
+
+  const handleRegionChange = (e) => {
+    const selectedRegion = e.target.value;
+    setFormData(prevState => ({
+      ...prevState,
+      region: selectedRegion,
+      city_name: '' // Сбрасываем выбранный город при изменении региона
+    }));
+    setCities(regions[selectedRegion] || []);
+  };
+
+  const handleFileChange = (e) => {
+    const files = Array.from(e.target.files);
+    setFormData(prevState => ({
+      ...prevState,
+      photos: files
+    }));
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -23,7 +69,6 @@ function PetitionMakingPage() {
       setErrorMessage('Ошибка: Токен не найден');
       return;
     }
-
 
     const dataToSend = new FormData();
     dataToSend.append('header', formData.header);
@@ -36,20 +81,23 @@ function PetitionMakingPage() {
       dataToSend.append('photos', photo);
     });
     dataToSend.append('token', token);
-    dataToSend.append('region', 'Республика Коми');
+    dataToSend.append('region', formData.region);
     
     const url = 'http://127.0.0.1:8000/make_petition';
     axios.post(url, dataToSend)
     .then(response => {
       setErrorMessage(null);
       setSuccessMessage('Заявка успешно отправлена');
-      setFormData(prevState => ({
-        ...prevState,
+      setFormData({
         header: '',
+        is_initiative: false,
+        category: 'ЖКХ',
         description: '',
         address: '',
+        region: '',
+        city_name: '',
         photos: []
-      }));
+      });
     })
     .catch(error => {
       if (error.response) {
@@ -69,28 +117,12 @@ function PetitionMakingPage() {
     });
   };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prevState => ({
-      ...prevState,
-      [name]: value
-    }));
-  };
-
-  const handleFileChange = (e) => {
-    const files = Array.from(e.target.files);
-    setFormData(prevState => ({
-      ...prevState,
-      photos: files
-    }));
-  };
-
   return (
     <div>
       <Header />
       <div className="petition-page-container">
         <div className="petition-header">
-          <h1>Заполните данные для создания заявки</h1>
+          <h5>Заполните данные для создания заявки</h5>
         </div>
           {errorMessage && <p className="error-message">{errorMessage}</p>}
           {successMessage && <p className="success">{successMessage}</p>}
@@ -136,10 +168,22 @@ function PetitionMakingPage() {
           </label>
 
           <label>
+            Регион:
+            <select name="region" value={formData.region} onChange={handleRegionChange} required>
+              <option value="">Выберите регион</option>
+              {Object.keys(regions).map((region) => (
+                <option key={region} value={region}>{region}</option>
+              ))}
+            </select>
+          </label>
+
+          <label>
             Город:
-            <select name="city_name" value={formData.city_name} onChange={handleChange} required>
-              <option value="Емва">Емва</option>
-              <option value="Сыктывкар">Сыктывкар</option>
+            <select name="city_name" value={formData.city_name} onChange={handleChange} required disabled={!formData.region}>
+              <option value="">Выберите город</option>
+              {cities.map((city, index) => (
+                <option key={index} value={Object.keys(city)[0]}>{Object.keys(city)[0]}</option>
+              ))}
             </select>
           </label>
 

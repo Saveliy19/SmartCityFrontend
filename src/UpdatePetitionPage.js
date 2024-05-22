@@ -8,6 +8,7 @@ function PetitionStatusForm({ onUpdateStatus, onCancel }) {
   const [status, setStatus] = useState('на модерации');
   const [comment, setComment] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
   const { petitionId } = useParams();
   const navigate = useNavigate();
 
@@ -32,20 +33,30 @@ function PetitionStatusForm({ onUpdateStatus, onCancel }) {
       id: petitionId,
       user_token: token,
       status: status,
-      comment: ('Новый статус: ' +status + '. Комментарий администратора: ' + comment)
+      comment: ('Новый статус: ' + status + '. Комментарий администратора: ' + comment)
     };
 
     // Отправляем данные на сервер
     axios.post('http://127.0.0.1:8000/update_petition', data)
       .then(response => {
         // Обработка успешного ответа от сервера
-        console.log('Success:', response.data);
         setSuccessMessage('Статус заявки успешно обновлен.');
+        setErrorMessage(null); // Очистка сообщения об ошибке
         onUpdateStatus(status, comment);
       })
       .catch(error => {
         // Обработка ошибки при запросе
-        console.error('Error:', error);
+        if (error.response) {
+          if (error.response.status === 500) {
+            setErrorMessage('Что-то пошло не так, попробуйте позже.');
+          } else if (error.response.status === 401) {
+            setErrorMessage('Необходима повторная авторизация. Пожалуйста, перезайдите в систему.');
+          } else {
+            setErrorMessage('Ошибка при отправке запроса. Пожалуйста, попробуйте позже.');
+          }
+        } else {
+          setErrorMessage('Ошибка сети. Пожалуйста, попробуйте позже.');
+        }
       });
   };
 
@@ -56,7 +67,10 @@ function PetitionStatusForm({ onUpdateStatus, onCancel }) {
   return (
     <div>
       <Header />
+      
       <div className="petition-status-form">
+      {successMessage  && <div className="success">{successMessage}</div>}
+      {errorMessage && !successMessage && <div className="error-message">{errorMessage}</div>}
         <p>Заявка № {petitionId}</p>
         <form onSubmit={handleSubmit}>
           <div className="form-group">
@@ -78,7 +92,6 @@ function PetitionStatusForm({ onUpdateStatus, onCancel }) {
               placeholder="Введите ваш комментарий здесь" 
             />
           </div>
-          {successMessage && <div className="success-message">{successMessage}</div>}
           <div className="button-group">
             <button type="submit" className="update-button">Обновить статус</button>
             <button type="button" className="cancel-button" onClick={handleGoBack}>Назад</button>

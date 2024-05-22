@@ -83,7 +83,7 @@ function AdminPetitionsPage() {
               <label>Фильтр по статусу: </label>
               <select value={statusFilter} onChange={handleStatusChange}>
                 <option value="all">Все</option>
-                <option value="ожидает модерации">Ожидает модерации</option>
+                <option value="На модерации">На модерации</option>
                 <option value="Решено">Решено</option>
                 <option value="В работе">В работе</option>
                 <option value="Отклонено">Отклонено</option>
@@ -126,7 +126,7 @@ function AdminPetitionsPage() {
                     <p><strong>Адрес:</strong> {petition.address}</p>
                     <p><strong>Дата:</strong> {petition.date}</p>
                     <p style={{ color: petition.status === 'Решено' || petition.status === 'Одобрено' ? 'green' :
-                    petition.status === 'В работе' || petition.status === 'На рассмотрении' ? 'yellow' :
+                    petition.status === 'В работе' || petition.status === 'На рассмотрении' ? 'orange' :
                     petition.status === 'Отклонено' ? 'red' : 'blue', 
                     textTransform: 'uppercase' }}>
                     {petition.status}</p>

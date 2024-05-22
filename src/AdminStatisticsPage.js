@@ -3,6 +3,7 @@ import Header from './Header';
 import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
+import { format } from 'date-fns';
 import { Bar, Line } from 'react-chartjs-2';
 import Chart from 'chart.js/auto';
 
@@ -48,6 +49,8 @@ const AnalyticsPage = () => {
       const countDataCity = Object.values(analyticsData.count_per_category_city);
       const categoriesRegion = Object.keys(analyticsData.count_per_category_region);
       const countDataRegion = Object.values(analyticsData.count_per_category_region);
+      const complaintsCityBGColors = categoriesCity.map((label, index) => `hsl(${label.length * 360 / categoriesCity.length - index*20}, 70%, 50%)`);
+      const complaintsRegionBGColors = categoriesRegion.map((label, index) => `hsl(${label.length * 360 / categoriesRegion.length - index*20}, 70%, 50%)`);
 
       const updatedChartDataCity = {
         labels: categoriesCity,
@@ -56,7 +59,7 @@ const AnalyticsPage = () => {
             data: countDataCity,
             label: "Количество жалоб в городе",
             borderColor: "#3333ff",
-            backgroundColor: "rgba(0, 0, 255, 0.5)",
+            backgroundColor: complaintsCityBGColors,
             fill: true
           }
         ]
@@ -69,7 +72,7 @@ const AnalyticsPage = () => {
             data: countDataRegion,
             label: "Количество жалоб в регионе",
             borderColor: "#ff3333",
-            backgroundColor: "rgba(255, 0, 0, 0.5)",
+            backgroundColor: complaintsRegionBGColors,
             fill: true
           }
         ]
@@ -79,6 +82,8 @@ const AnalyticsPage = () => {
       const initiativeCountDataCity = Object.values(analyticsData.init_count_per_category_city);
       const initiativeCategoriesRegion = Object.keys(analyticsData.init_count_per_category_region);
       const initiativeCountDataRegion = Object.values(analyticsData.init_count_per_category_region);
+      const initiativesCityBGColors = initiativeCategoriesCity.map((label, index) => `hsl(${label.length * 360 / categoriesCity.length - index*20}, 70%, 50%)`);
+      const initiativesRegionBGColors = initiativeCategoriesRegion.map((label, index) => `hsl(${label.length * 360 / categoriesCity.length - index*20}, 70%, 50%)`);
 
       const updatedInitiativeChartDataCity = {
         labels: initiativeCategoriesCity,
@@ -87,7 +92,7 @@ const AnalyticsPage = () => {
             data: initiativeCountDataCity,
             label: "Количество инициатив в городе",
             borderColor: "#3333ff",
-            backgroundColor: "rgba(0, 0, 255, 0.5)",
+            backgroundColor: initiativesCityBGColors,
             fill: true
           }
         ]
@@ -95,12 +100,13 @@ const AnalyticsPage = () => {
 
       const updatedInitiativeChartDataRegion = {
         labels: initiativeCategoriesRegion,
+        
         datasets: [
           {
             data: initiativeCountDataRegion,
             label: "Количество инициатив в регионе",
             borderColor: "#ff3333",
-            backgroundColor: "rgba(255, 0, 0, 0.5)",
+            backgroundColor: initiativesRegionBGColors,
             fill: true
           }
         ]
@@ -218,7 +224,7 @@ const AnalyticsPage = () => {
                   <div className='info' key={complaint.id}>
                     <p><Link to={`/petition/${complaint.id}`}>ID: {complaint.id} </Link> - {complaint.header}</p>
                     <p>Категория: <strong>{complaint.category}</strong></p>
-                    <p>Дата подачи: <strong>{complaint.submission_time}</strong></p>
+                    <p>Дата подачи: <strong>{format(Date(complaint.submission_time), 'dd.MM.yyyy HH:mm')}</strong></p>
                     <p>Количество подписей: <strong>{complaint.like_count}</strong></p>
                   </div>
                 ))}
@@ -231,7 +237,7 @@ const AnalyticsPage = () => {
                   <div className='info' key={initiative.id}>
                     <p><Link to={`/petition/${initiative.id}`}>ID: {initiative.id}</Link> - {initiative.header}</p>
                     <p>Категория: <strong>{initiative.category}</strong></p>
-                    <p>Дата подачи: <strong>{initiative.submission_time}</strong></p>
+                    <p>Дата подачи: <strong>{format(Date(initiative.submission_time), 'dd.MM.yyyy HH:mm')}</strong></p>
                     <p>Количество подписей: <strong>{initiative.like_count}</strong></p>
                   </div>
                 ))}

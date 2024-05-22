@@ -4,39 +4,30 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import Header from './Header';
 import { useNavigate } from 'react-router-dom';
-import { Pie } from 'react-chartjs-2';
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import { Pie, Bar } from 'react-chartjs-2';
+import { Chart as ChartJS, ArcElement, Tooltip, Legend, BarElement, CategoryScale, LinearScale } from 'chart.js';
 
-ChartJS.register(ArcElement, Tooltip, Legend);
+ChartJS.register(ArcElement, Tooltip, Legend, BarElement, CategoryScale, LinearScale);
 
 function CityPage({ cityName }) {
   const [cityData, setCityData] = useState(null);
-  const [regionData, setRegionData] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const cityResponse = await axios.post('http://127.0.0.1:8000/get_brief_analysis', {
-          type: 'city_name',
+        const response = await axios.post('http://127.0.0.1:8000/get_brief_analysis', {
+          region: 'Республика Коми',
           name: cityName,
-          period: 'month'
+          period: 'year'
         });
-        setCityData(cityResponse.data[0]);
-
-        const regionResponse = await axios.post('http://127.0.0.1:8000/get_brief_analysis', {
-          type: 'region',
-          name: 'Республика Коми',
-          period: 'month'
-        });
-        setRegionData(regionResponse.data[0]);
+        setCityData(response.data[0]);
       } catch (error) {
         if (error.response && error.response.status === 500) {
-          setErrorMessage('Сервис жалоб и инициатив временно недоступен');
+          setErrorMessage('Сервис жалоб и инициатив временно недоступен, попробуйте позже');
         } else {
-          console.error('Произошла ошибка при загрузке данных:', error);
-          setErrorMessage('Произошла ошибка при загрузке данных');
+          setErrorMessage('Сервис жалоб и инициатив временно недоступен, попробуйте позже');
         }
       }
     };
@@ -52,7 +43,7 @@ function CityPage({ cityName }) {
     if (!dataObject || Object.keys(dataObject).length === 0) {
       return <p>Нет данных для отображения</p>;
     }
-  
+
     const statusColors = {
       'На модерации': '#47e3ff', // Синий
       'На рассмотрении': '#ffe657', // Оранжевый
@@ -61,11 +52,11 @@ function CityPage({ cityName }) {
       'Решено': '#65ff57', // Зеленый
       'Одобрено': '#65ff57' // Зеленый
     };
-  
+
     const labels = Object.keys(dataObject);
     const dataValues = Object.values(dataObject);
     const backgroundColors = labels.map(label => statusColors[label]);
-  
+
     const data = {
       labels: labels,
       datasets: [
@@ -75,7 +66,7 @@ function CityPage({ cityName }) {
         },
       ],
     };
-  
+
     const options = {
       maintainAspectRatio: false,
       responsive: true,
@@ -98,12 +89,55 @@ function CityPage({ cityName }) {
         }
       },
     };
-  
+
     return <div className="pie-container"><Pie data={data} options={options} /></div>;
   };
 
+  const renderBarChart = (dataObject, type) => {
+    if (!dataObject || Object.keys(dataObject).length === 0) {
+      return <p>Нет данных для отображения</p>;
+    }
+
+    const labels = Object.keys(dataObject);
+    const dataValues = Object.values(dataObject);
+    const backgroundColors = labels.map((label, index) => `hsl(${index * 360 / labels.length}, 70%, 50%)`);
+
+    const data = {
+      labels: labels,
+      datasets: [
+        {
+          label: type,
+          data: dataValues,
+          backgroundColor: backgroundColors,
+        },
+      ],
+    };
+
+    const options = {
+      indexAxis: 'y',
+      maintainAspectRatio: false,
+      responsive: true,
+      plugins: {
+        legend: {
+          display: false,
+        },
+        title: {
+          display: true,
+          text: type,
+        }
+      },
+      scales: {
+        x: {
+          beginAtZero: true,
+        },
+      },
+    };
+
+    return <div className="bar-container"><Bar data={data} options={options} /></div>;
+  };
+
   return (
-    <div>
+    <div className="city-page">
       <Header />
       <div className='city-page-content'>
         <h1>{cityName}</h1>
@@ -116,14 +150,16 @@ function CityPage({ cityName }) {
           <div className="data-column">
             {cityData ? (
               <div>
-                <p style={{ fontWeight: 'bold' }}>Результаты работы сервиса в городе за месяц</p>
-                <p>Петиций: {cityData.petitions_count}</p>
-                <p>Инициатив: {cityData.initiatives_count}</p>
-                <p>Самая популярная категория жалоб: {cityData.most_popular_petition}</p>
-                <p>Самая популярная категория инициатив: {cityData.most_popular_initiative}</p>
+                <p style={{ fontWeight: 'bold' }}>Результаты работы сервиса в городе за год</p>
+                <p>Инициатив получено: {Object.values(cityData.city_initiatives_count_per_status).reduce((a, b) => a + b, 0)}</p>
+                <p>Жалоб получено: {Object.values(cityData.city_complaints_count_per_status).reduce((a, b) => a + b, 0)}</p>
                 <div className='pies-container'>
-                  {renderPieChart(cityData.complaints_per_status, 'Жалобы')}
-                  {renderPieChart(cityData.initiatives_per_status, 'Инициативы')}
+                  {renderPieChart(cityData.city_complaints_count_per_status, 'Жалобы')}
+                  {renderPieChart(cityData.city_initiatives_count_per_status, 'Инициативы')}
+                </div>
+                <div className='bars-container'>
+                  {renderBarChart(cityData.most_popular_city_complaints, 'Топ 3 самых популярных категорий жалоб')}
+                  {renderBarChart(cityData.most_popular_city_initiatives, 'Топ 3 самых популярных категорий инициатив')}
                 </div>
               </div>
             ) : (
@@ -131,17 +167,17 @@ function CityPage({ cityName }) {
             )}
           </div>
           <div className="data-column">
-            {regionData ? (
+            {cityData ? (
               <div>
-                <p style={{ fontWeight: 'bold' }}>Результаты работы сервиса в регионе за месяц</p>
-                <p>Петиций: {regionData.petitions_count}</p>
-                <p>Инициатив: {regionData.initiatives_count}</p>
-                <p>Самая популярная категория жалоб: {regionData.most_popular_petition}</p>
-                <p>Самая популярная категория инициатив: {regionData.most_popular_initiative}</p>
+                <p style={{ fontWeight: 'bold' }}>Результаты работы сервиса в регионе за год</p>
+                <p>Инициатив получено: {Object.values(cityData.region_initiatives_count_per_status).reduce((a, b) => a + b, 0)}</p>
+                <p>Жалоб получено: {Object.values(cityData.region_complaints_count_per_status).reduce((a, b) => a + b, 0)}</p>
                 <div className='pies-container'>
-                  {renderPieChart(regionData.complaints_per_status, 'Жалобы')}
-                  {renderPieChart(regionData.initiatives_per_status, 'Инициативы')}
+                  {renderPieChart(cityData.region_complaints_count_per_status, 'Жалобы')}
+                  {renderPieChart(cityData.region_initiatives_count_per_status, 'Инициативы')}
                 </div>
+                  {renderBarChart(cityData.most_popular_region_complaints, 'Топ 3 самых популярных категорий жалоб')}
+                  {renderBarChart(cityData.most_popular_region_initiatives, 'Топ 3 самых популярных категорий инициатив')}
               </div>
             ) : (
               <p>Загрузка данных...</p>

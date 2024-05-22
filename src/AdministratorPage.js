@@ -43,11 +43,9 @@ const AdminDashboard = () => {
       ) : adminData ? (
         <div className="admin-data">
           <img src={adminIcon} alt="Admin Icon" className="admin-icon" /> {/* Иконка администратора */}
-          <p>ID: {adminData.id}</p>
-          <p>Email: {adminData.email}</p>
-          <p><strong>Фамилия</strong> {adminData.last_name}</p>
-          <p><strong>Имя</strong> {adminData.first_name}</p>
-          <p><strong>Отчество</strong> {adminData.patronymic}</p>
+          <p><strong>{adminData.last_name} {adminData.first_name} {adminData.patronymic}</strong></p>
+          <p><strong>ID:</strong> {adminData.id}</p>
+          <p><strong>Email:</strong> {adminData.email}</p>
           <p><strong>Регион</strong> {adminData.region}</p>
           <p><strong>Город</strong> {adminData.city}</p>
           

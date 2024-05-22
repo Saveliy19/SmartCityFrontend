@@ -96,11 +96,11 @@ const ProfilePage = () => {
               <div className="user-icon">
                 <img src={userIcon} alt="User" className="profile-image" />
               </div>
-              <p className="user-name">{`${userData.last_name} ${userData.first_name} ${userData.patronymic}`}</p>
-              <p>ID пользователя: {userData.id}</p>
+              <p className="user-name"><strong>{`${userData.last_name} ${userData.first_name} ${userData.patronymic}`}</strong></p>
+              <p><strong>Email:</strong> {userData.email}</p>
+              <p><strong>ID:</strong> {userData.id}</p>
               <p><strong>Регион:</strong> {userData.region}</p>
               <p><strong>Город:</strong> {userData.city}</p>
-              <p><strong>Рейтинг:</strong> {userData.rating}</p>
             </div>
           </div>
         )}

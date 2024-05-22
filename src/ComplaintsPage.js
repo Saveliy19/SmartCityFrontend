@@ -10,6 +10,8 @@ function ComplaintsPage() {
   const { cityName } = useParams();
   const navigate = useNavigate();
 
+  const [errorMessage, setErrorMessage] = useState('');
+
   const [sortByStatus, setSortByStatus] = useState("Все");
   const [sortByDate, setSortByDate] = useState("Сначала новые");
 
@@ -23,7 +25,11 @@ function ComplaintsPage() {
         });
         setPetitionsData(response.data[0].petitions);
       } catch (error) {
-        console.error('Произошла ошибка при загрузке данных:', error);
+        if (error.response && error.response.status === 500) {
+          setErrorMessage('Сервис жалоб и инициатив временно недоступен, попробуйте позже');
+        } else {
+          setErrorMessage('Сервис жалоб и инициатив временно недоступен, попробуйте позже');
+        }
       }
     };
 
@@ -55,6 +61,11 @@ function ComplaintsPage() {
   return (
     <div>
       <Header cityName={cityName} />
+      {errorMessage && (
+          <div className="error-message">
+            <p>{errorMessage}</p>
+          </div>
+        )}
       <h2>Жалобы города {cityName}</h2>
 
       {/* Элементы управления для выбора сортировки */}

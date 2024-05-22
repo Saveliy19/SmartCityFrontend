@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './RegistrationPage.css'; // Импортируем файл стилей
 import Header from './Header'; // Импорт компонента Header
@@ -11,11 +11,32 @@ function RegistrationPage() {
     last_name: '',
     first_name: '',
     patronymic: '',
+    region: '',
     city: ''
   });
+  const [regions, setRegions] = useState({});
+  const [cities, setCities] = useState([]);
   const [errorMessage, setErrorMessage] = useState('');
   const [registrationSuccess, setRegistrationSuccess] = useState(false);
   const navigate = useNavigate(); // Хук для навигации
+
+  useEffect(() => {
+    // Загружаем регионы и города при загрузке компонента
+    const fetchCities = async () => {
+      try {
+        const response = await fetch('http://127.0.0.1:8000/get_cities');
+        const data = await response.json();
+        if (response.ok) {
+          setRegions(data[0]);
+        } else {
+          setErrorMessage('Не удалось загрузить регионы и города');
+        }
+      } catch (error) {
+        setErrorMessage('Ошибка сети. Пожалуйста, попробуйте позже.');
+      }
+    };
+    fetchCities();
+  }, []);
 
   const handleChange = (e) => {
     const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
@@ -23,6 +44,16 @@ function RegistrationPage() {
       ...formData,
       [e.target.name]: value
     });
+  };
+
+  const handleRegionChange = (e) => {
+    const selectedRegion = e.target.value;
+    setFormData({
+      ...formData,
+      region: selectedRegion,
+      city: '' // Сбрасываем выбранный город при изменении региона
+    });
+    setCities(regions[selectedRegion] || []);
   };
 
   const handleSubmit = async (e) => {
@@ -42,35 +73,35 @@ function RegistrationPage() {
       return;
     }
     try {
-      let cityValue = '';
-      if (formData.city === 'Емва') {
-        cityValue = 3;
-      } else if (formData.city === 'Сыктывкар') {
-        cityValue = 1;
-      }
-      
+      const cityValue = cities.find(city => Object.keys(city)[0] === formData.city)[formData.city];
+
+      const requestData = {
+        email: formData.email,
+        password: formData.password,
+        last_name: formData.last_name,
+        first_name: formData.first_name,
+        patronymic: formData.patronymic,
+        city: cityValue
+      };
+
       const response = await fetch('http://127.0.0.1:8000/registration', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({
-          ...formData,
-          city: cityValue
-        })
+        body: JSON.stringify(requestData)
       });
       
       if (response.ok) {
-        console.log('Регистрация успешна');
         setRegistrationSuccess(true);
         setErrorMessage(''); // Сброс сообщения об ошибке
+      } else if (response.status === 500) {
+        setErrorMessage('Что-то пошло не так, попробуйте позже');
       } else {
-        console.error('Ошибка при регистрации');
-        // Обработка ошибки при регистрации
+        // Обработка других ошибок при регистрации
         setErrorMessage('Пользователь с таким адресом электронной почты уже зарегистрирован в системе!');
       }
     } catch (error) {
-      console.error('Ошибка:', error);
       // Обработка ошибки сети или других проблем
       setErrorMessage('Ошибка сети. Пожалуйста, попробуйте позже.');
     }
@@ -156,15 +187,32 @@ function RegistrationPage() {
               />
             </div>
             <div>
+              <label>Регион:</label>
+              <select
+                name="region"
+                value={formData.region}
+                onChange={handleRegionChange}
+                required
+              >
+                <option value="">Выберите регион</option>
+                {Object.keys(regions).map((region) => (
+                  <option key={region} value={region}>{region}</option>
+                ))}
+              </select>
+            </div>
+            <div>
               <label>Город:</label>
               <select
                 name="city"
                 value={formData.city}
                 onChange={handleChange}
                 required
+                disabled={!formData.region}
               >
-                <option value="Емва">Емва</option>
-                <option value="Сыктывкар">Сыктывкар</option>
+                <option value="">Выберите город</option>
+                {cities.map((city, index) => (
+                  <option key={index} value={Object.keys(city)[0]}>{Object.keys(city)[0]}</option>
+                ))}
               </select>
             </div>
             <button type="submit">Зарегистрироваться</button>
@@ -173,7 +221,6 @@ function RegistrationPage() {
       </div>
     </div>
     </div>
-    
   );
 }
 
