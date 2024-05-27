@@ -32,3 +32,11 @@ textarea {
     height: 200px; /* Установить желаемую высоту */
     resize: none; /* Разрешить вертикальное изменение размера, если нужно */
 }
+
+.loading-indicator {
+    margin-bottom: 20px;
+    font-size: 16px;
+    color: #0080ff;
+    display: flex;
+    justify-content: center; /* Центрирование крутилки */
+}
